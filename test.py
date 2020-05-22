@@ -1,4 +1,5 @@
-from skyline import Skyline
+from Skyline import Skyline
+import time
 
 '''
 a = [(1,2,3),(5,3,6),(6,4,8)]
@@ -19,8 +20,13 @@ sk3 = - sk3
 sk3.printSkyline()
 '''
 
+start_time = time.time()
+
 a = Skyline()
 
+a.addRandom(100000, 20, 3, 1, 10000)
+
+'''
 a.addBuilding((1,2,3))
 print(a.getMeasures())
 a.printSkyline()
@@ -36,7 +42,21 @@ a.printSkyline()
 a = -a
 print(a.getMeasures())
 a.printSkyline()
+'''
 
 a = a * 2
+
+b = Skyline()
+b.addRandom(100000, 20, 3, 1, 10000)
+
+b = b * a
+
 print(a.getMeasures())
+
+print("--- %s seconds ---" % (time.time() - start_time))
+start_time = time.time()
 a.printSkyline()
+
+
+
+print("--- %s seconds ---" % (time.time() - start_time))

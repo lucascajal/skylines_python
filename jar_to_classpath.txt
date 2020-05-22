@@ -1,0 +1,1 @@
+SET CLASSPATH=.;C:\Users\lcaja\Desktop\LP-python\antlr-4.8-complete.jar;%CLASSPATH%
