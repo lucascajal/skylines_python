@@ -8,10 +8,13 @@ expr : '(' expr ')'
     | expr MES expr
     | expr MENYS expr
     | WORD ':=' expr
-    | NUM
     | WORD
+    | '(' NUM ',' NUM ',' NUM ')'
+    | '{' NUM ',' NUM ',' NUM ',' NUM ',' NUM '}'
+    | NUM
     ;
 
+//BUILDINGS : Building ',' ;
 NUM : [0-9]+ ;
 MUL : '*' ;
 MES : '+' ;

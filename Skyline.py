@@ -49,6 +49,9 @@ class Skyline:
                 if xmin in skyline1: res[xmin] = min(skyline1[xmin], skyline2[xmin])
             return Skyline(res)
     
+    def __rmul__(self, other):
+        return self * other
+    
     def __neg__(self):
         skyline = self.getSkyline()
         ini = min(skyline.keys())
