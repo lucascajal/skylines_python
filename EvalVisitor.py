@@ -17,7 +17,8 @@ class EvalVisitor(SkylineVisitor):
     def visitRoot(self, ctx:SkylineParser.RootContext):
         n = next(ctx.getChildren())
         result = self.visit(n)
-        result.printSkyline()
+        #result.printSkyline()
+        result.saveImage()
 
     def visitExpr(self, ctx:SkylineParser.ExprContext):
         l = [n for n in ctx.getChildren()]

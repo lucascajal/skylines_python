@@ -113,3 +113,7 @@ class Skyline:
     def printSkyline(self):
         plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
         plt.show()
+    
+    def saveImage(self):
+        plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
+        plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
