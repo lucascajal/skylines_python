@@ -1,4 +1,4 @@
-import sys, traceback
+import sys, traceback, pickle
 from antlr4 import *
 from SkylineLexer import SkylineLexer
 from SkylineParser import SkylineParser
@@ -39,7 +39,27 @@ class Antlr():
          print(e)
          return False
       '''
-      
+   
+   def lst(self):
+      return self.visitor.listKeys()
+
+   def getArea(self, id):
+      return self.visitor.getArea(id)
+   
+   def clean(self):
+      self.visitor = EvalVisitor()
+   
+   def save(self, name):
+      data = self.visitor.getDictionary()
+      pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'wb')
+      pickle.dump(data, pickle_file)
+      pickle_file.close()
+   
+   def load(self, name):
+      pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'rb')
+      data = pickle.load(pickle_file)
+      pickle_file.close()
+      self.visitor = EvalVisitor(data)
 
 def main():
    visitor = EvalVisitor()

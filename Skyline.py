@@ -94,7 +94,7 @@ class Skyline:
             self.addBuilding(building)
     
     def addRandom(self, n, h, w, xmin, xmax):
-        if (n < 0) or (h < 0) or (xmin >= xmax):
+        if (n < 0) or (h < 0) or (xmin >= xmax) or (w < 1):
             raise WrongDimensions
         for _ in range(n):
             height = random.randint(0,h)

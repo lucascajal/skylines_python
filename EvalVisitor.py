@@ -11,8 +11,18 @@ class SkyilineNotAssigned(Exception):
    pass
 
 class EvalVisitor(SkylineVisitor):
-    def __init__(self):
-        self.dictionary = {}
+    def __init__(self, initialSkyline={}):
+        self.dictionary = dict(initialSkyline)
+
+    def listKeys(self):
+        return self.dictionary.keys()
+    
+    def getDictionary(self):
+        return self.dictionary
+    
+    def getArea(self, id):
+        area, height = self.dictionary[id].getMeasures()
+        return area
 
     def visitRoot(self, ctx:SkylineParser.RootContext):
         n = next(ctx.getChildren())
