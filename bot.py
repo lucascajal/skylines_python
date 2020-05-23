@@ -14,26 +14,20 @@ def author(update, context):
 def help(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="Avaliable commands: /start, /help, /author and /random.")
+        text="Avaliable commands: /start, /help and /author.")
 
 def echo(update, context):
     """Reads a code line and replies with the resulting skyline"""
-    if lang.send(update.message.text):
-        a,h = lang.getMeasures()
+    a, h = lang.send(update.message.text)
+    if not a:
+        update.message.reply_text("Wrong command")
+    else:
         context.bot.send_photo(
             chat_id=update.effective_chat.id, 
             photo=open('/home/lucas/upc/LP/Python/bot/fig.png', 'rb'))
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="area: " + str(a) + "\nalçada: " + str(h))
-    else:
-        update.message.reply_text("Wrong command")
-
-
-def random(update, context):
-    context.bot.send_photo(
-        chat_id=update.effective_chat.id, 
-        photo=open('/home/lucas/upc/LP/Python/bot/fig.png', 'rb'))
 
 lang = Antlr()
 
@@ -44,7 +38,6 @@ dispatcher = updater.dispatcher
 dispatcher.add_handler(CommandHandler('start', start))
 dispatcher.add_handler(CommandHandler('author', author))
 dispatcher.add_handler(CommandHandler('help', help))
-dispatcher.add_handler(CommandHandler('random', random))
 
 dispatcher.add_handler(MessageHandler(Filters.text, echo))
 

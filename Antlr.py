@@ -24,12 +24,10 @@ class Antlr():
          token_stream = CommonTokenStream(lexer)
          parser = SkylineParser(token_stream)
          tree = parser.root()
-         self.visitor.visit(tree)
-         return True
+         return self.visitor.visit(tree)
       except Exception as e:
          print('error')
-         traceback.print_exc()
-         return False
+         return False, False
       '''
       except SkyilineNotAssigned:
          print("SkyilineNotAssigned")
