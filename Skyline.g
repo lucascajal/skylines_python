@@ -1,5 +1,7 @@
 grammar Skyline;
 
+//antlr4 -Dlanguage=Python3 -no-listener -visitor Skyline.g
+
 root : expr EOF ;
 
 expr : '(' expr ')'
@@ -15,7 +17,8 @@ expr : '(' expr ')'
     ;
 
 //BUILDINGS : Building ',' ;
-NUM : [0-9]+ ;
+NUM : [0-9]+
+    | '-' [0-9]+;
 MUL : '*' ;
 MES : '+' ;
 MENYS : '-' ;

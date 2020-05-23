@@ -1,6 +1,10 @@
 import random
 import matplotlib.pyplot as plt
 
+class WrongDimensions(Exception):
+   """Raised when trying to create a building with wrong parameters"""
+   pass
+
 class Skyline:
     def __init__(self, initialBuildings={}):
         self.buildings = dict(initialBuildings)
@@ -73,6 +77,8 @@ class Skyline:
         return Skyline(skyline)
 
     def addBuilding(self, building):
+        if (building[0] >= building[2]) or (building[1] < 0):
+            raise WrongDimensions
         if self.height < building[1]: self.height = building[1]
         if building[1] > 0:
             for i in range(building[0], building[2]):
@@ -88,6 +94,8 @@ class Skyline:
             self.addBuilding(building)
     
     def addRandom(self, n, h, w, xmin, xmax):
+        if (n < 0) or (h < 0) or (xmin >= xmax):
+            raise WrongDimensions
         for _ in range(n):
             height = random.randint(0,h)
             width = random.randint(1, min((xmax - xmin), w))
@@ -117,3 +125,4 @@ class Skyline:
     def saveImage(self):
         plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
         plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
+        plt.close()

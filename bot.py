@@ -1,7 +1,6 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from Antlr import Antlr
 
-
 def start(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -18,12 +17,17 @@ def help(update, context):
         text="Avaliable commands: /start, /help, /author and /random.")
 
 def echo(update, context):
-    """Echo the user message."""
-    #update.message.reply_text(update.message.text)
-    lang.send(update.message.text)
-    context.bot.send_photo(
-        chat_id=update.effective_chat.id, 
-        photo=open('/home/lucas/upc/LP/Python/bot/fig.png', 'rb'))
+    """Reads a code line and replies with the resulting skyline"""
+    if lang.send(update.message.text):
+        a,h = lang.getMeasures()
+        context.bot.send_photo(
+            chat_id=update.effective_chat.id, 
+            photo=open('/home/lucas/upc/LP/Python/bot/fig.png', 'rb'))
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="area: " + str(a) + "\nalçada: " + str(h))
+    else:
+        update.message.reply_text("Wrong command")
 
 
 def random(update, context):
