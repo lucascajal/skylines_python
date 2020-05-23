@@ -1,8 +1,11 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram import ParseMode
 from Antlr import Antlr
 
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
 def start(update, context):
+    lang.clean()
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Wassup my friend. Type /help for a list of commands")
@@ -42,16 +45,30 @@ def load(update, context):
         text="Data loaded!")
 
 def help(update, context):
-    info = """*Avaliable commands:*
+    keyboard = [[InlineKeyboardButton("List commands", callback_data='List commands')],
+                [InlineKeyboardButton("Language description", callback_data='Language description')]]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    update.message.reply_text('What do you need help with?', reply_markup=reply_markup)
+
+def printHelp(update, context):
+    query = update.callback_query
+    query.answer()
+    info = ""
+    if "{}".format(query.data) == "List commands":
+        info = """*Avaliable commands:*
+
 /start : Starts the session
 /help : Display help
 /author : Information about the author
 /lst : List session skylines
 /clean : Clear all skylines from session
 /save : Save current session
-/load : Load saved session
+/load : Load saved session"""
+    else:
+        info = """*Skyline management language*
 
-*Skyline management language:*
 *Skyline creation*
   · Single: \(xmin, h, xmax\)
 xmin and xmax specify the initial and final position, and h the height of the buidling\. Example: \(1, 2, 3\)
@@ -80,7 +97,6 @@ Creates n buildings, each one of them with a random height between 0 and h, a ra
         chat_id=update.effective_chat.id, 
         text=info, 
         parse_mode='MarkdownV2')
-    
 
 def command(update, context):
     """Reads a code line and replies with the resulting skyline"""
@@ -100,6 +116,8 @@ lang = Antlr()
 TOKEN = open('/home/lucas/upc/LP/Python/bot/token.txt').read().strip()
 updater = Updater(token=TOKEN, use_context=True)
 dispatcher = updater.dispatcher
+
+updater.dispatcher.add_handler(CallbackQueryHandler(printHelp)) # per respondre a click de help al inline keyboard
 
 dispatcher.add_handler(CommandHandler('start', start)) # inicia la conversa amb el Bot
 dispatcher.add_handler(CommandHandler('author', author)) # el Bot ha d’escriure el nom complet de l’autor del projecte i seu correu electrònic oficial de la facultat
