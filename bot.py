@@ -3,6 +3,7 @@ from telegram import ParseMode
 from Antlr import Antlr
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+import os
 
 def start(update, context):
     lang.clean()
@@ -33,16 +34,39 @@ def clean(update, context):
         text="All identifiers erased!")
 
 def save(update, context):
-    lang.save(context.args[0])
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text="Data saved!")
+    if len(context.args) == 1:
+        lang.save(context.args[0])
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Data saved!")
+    
+    else:
+        context.bot.send_message(
+            chat_id=update.effective_chat.id, 
+            text='*ERROR:* command takes 1 argument, ' + str(len(context.args)) + ' given', 
+            parse_mode='MarkdownV2')
 
 def load(update, context):
-    lang.load(context.args[0])
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text="Data loaded!")
+    if len(context.args) == 1:
+        lang.load(context.args[0])
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Data loaded!")
+    elif len(context.args) == 0:
+        keyboard = []
+        for file in os.listdir("/home/lucas/upc/LP/Python/bot/"):
+            if file.endswith(".sky"):
+                name = file[:len(file)-4]
+                keyboard.append([InlineKeyboardButton(name, callback_data=name)])
+        
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        update.message.reply_text('Which file do you want to load?', reply_markup=reply_markup)
+
+    else:
+        context.bot.send_message(
+            chat_id=update.effective_chat.id, 
+            text='*ERROR:* command takes 0 or 1 argument, ' + str(len(context.args)) + ' given', 
+            parse_mode='MarkdownV2')
 
 def help(update, context):
     keyboard = [[InlineKeyboardButton("List commands", callback_data='List commands')],
@@ -52,12 +76,12 @@ def help(update, context):
 
     update.message.reply_text('What do you need help with?', reply_markup=reply_markup)
 
-def printHelp(update, context):
+def button(update, context):
     query = update.callback_query
     query.answer()
-    info = ""
+    text = ""
     if "{}".format(query.data) == "List commands":
-        info = """*Avaliable commands:*
+        text = """*Avaliable commands:*
 
 /start : Starts the session
 /help : Display help
@@ -66,8 +90,8 @@ def printHelp(update, context):
 /clean : Clear all skylines from session
 /save : Save current session
 /load : Load saved session"""
-    else:
-        info = """*Skyline management language*
+    elif "{}".format(query.data) == "Language description":
+        text = """*Skyline management language*
 
 *Skyline creation*
   · Single: \(xmin, h, xmax\)
@@ -93,16 +117,25 @@ Creates n buildings, each one of them with a random height between 0 and h, a ra
   ·  \*	intersection and replication
   · \+ \-	union and displacement
 """
+    else:
+        lang.load("{}".format(query.data))
+        text = "Data loaded\!"
+
+    #print("{}".format(query.data))
+    #print(text)
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
-        text=info, 
+        text=text, 
         parse_mode='MarkdownV2')
 
 def command(update, context):
     """Reads a code line and replies with the resulting skyline"""
     a, h = lang.send(update.message.text)
     if not a:
-        update.message.reply_text("Wrong command")
+        context.bot.send_message(
+            chat_id=update.effective_chat.id, 
+            text='*ERROR:* ' + h, 
+            parse_mode='MarkdownV2')
     else:
         context.bot.send_photo(
             chat_id=update.effective_chat.id, 
@@ -117,7 +150,7 @@ TOKEN = open('/home/lucas/upc/LP/Python/bot/token.txt').read().strip()
 updater = Updater(token=TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 
-updater.dispatcher.add_handler(CallbackQueryHandler(printHelp)) # per respondre a click de help al inline keyboard
+dispatcher.add_handler(CallbackQueryHandler(button)) # per respondre a click de help al inline keyboard
 
 dispatcher.add_handler(CommandHandler('start', start)) # inicia la conversa amb el Bot
 dispatcher.add_handler(CommandHandler('author', author)) # el Bot ha d’escriure el nom complet de l’autor del projecte i seu correu electrònic oficial de la facultat

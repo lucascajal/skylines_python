@@ -3,21 +3,18 @@ from antlr4 import *
 from SkylineLexer import SkylineLexer
 from SkylineParser import SkylineParser
 from TreeVisitor import TreeVisitor
-from EvalVisitor import EvalVisitor
-
-class SkyilineNotAssigned(Exception):
-   """Raised when trying to access a non existing skyline"""
-   pass
-
-class WrongDimensions(Exception):
-   """Raised when trying to create a building with wrong parameters"""
-   pass
+from EvalVisitor import EvalVisitor, SkyilineNotAssigned
+from Skyline import WrongDimensions
 
 class Antlr():
    def __init__(self, initialBuildings={}):
       self.visitor = EvalVisitor()
 
    def send(self, text):
+      if text[0] == '/':
+         if text == '/clear':
+            return False, 'Command not valid\. Did you mean /clean\?'
+         return False, 'Command not valid'
       try:
          input_stream = InputStream(text)
          lexer = SkylineLexer(input_stream)
@@ -25,20 +22,19 @@ class Antlr():
          parser = SkylineParser(token_stream)
          tree = parser.root()
          return self.visitor.visit(tree)
-      except Exception as e:
-         print('error')
-         return False, False
-      '''
+
       except SkyilineNotAssigned:
-         print("SkyilineNotAssigned")
-         return False
+         return False, 'Variable not initialized'
+
       except WrongDimensions:
-         print("WrongDimensions")
-         return False
+         return False, 'Wrong dimensions'
+      
+      except AttributeError:
+         return False, 'Command not valid'
+   
       except Exception as e:
-         print(e)
-         return False
-      '''
+         traceback.print_exc()
+         return False, 'Unknown error'
    
    def lst(self):
       return self.visitor.listKeys()

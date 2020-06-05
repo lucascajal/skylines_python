@@ -1,4 +1,5 @@
 from Skyline import Skyline
+from Skyline import WrongDimensions
 if __name__ is not None and "." in __name__:
     from .SkylineParser import SkylineParser
     from .SkylineVisitor import SkylineVisitor
@@ -6,9 +7,20 @@ else:
     from SkylineParser import SkylineParser
     from SkylineVisitor import SkylineVisitor
 
+
 class SkyilineNotAssigned(Exception):
-   """Raised when trying to access a non existing skyline"""
-   pass
+    def __init__(self, *args):
+        if args:
+            self.message = args[0]
+        else:
+            self.message = None
+    
+    def __str__(self):
+        print('callling str')
+        if self.message:
+            return 'SkyilineNotAssigned, {0}'.format(self.message)
+        else:
+            return 'SkyilineNotAssigned has been raised'
 
 class EvalVisitor(SkylineVisitor):
     def __init__(self, initialSkyline={}):
@@ -30,19 +42,42 @@ class EvalVisitor(SkylineVisitor):
         #result.printSkyline()
         result.saveImage()
         return result.getMeasures()
+    
+    def visitBuilding(self, ctx:SkylineParser.BuildingContext):
+        l = [n for n in ctx.getChildren()]
+        # City
+        if len(l) == 7:
+            sk = Skyline()
+            sk.addBuilding((int(l[1].getText()), int(l[3].getText()), int(l[5].getText())))
+            return sk
+
+        # Random cities
+        elif len(l) == 11:
+            sk = Skyline()
+            sk.addRandom(int(l[1].getText()), int(l[3].getText()), int(l[5].getText()), int(l[7].getText()), int(l[9].getText()))
+            return sk
+    
+    def visitBuildings(self, ctx:SkylineParser.BuildingsContext):
+        l = [n for n in ctx.getChildren()]
+        # City
+        sk = Skyline()
+        for i in range(1, len(l), 2):
+            sk = sk + self.visit(l[i])
+        return sk
+
+    def visitVar(self, ctx:SkylineParser.VarContext):
+        n = next(ctx.getChildren())
+        text = n.getText()
+        if text in self.dictionary:
+            return self.dictionary[text]
+        else:
+            raise SkyilineNotAssigned
 
     def visitExpr(self, ctx:SkylineParser.ExprContext):
         l = [n for n in ctx.getChildren()]
-        # Num or word
+        # Building, buildings, num or word
         if len(l) == 1:
-            text = l[0].getText()
-            try:
-                return int(text) # the value is a number
-            except ValueError:
-                if text in self.dictionary:
-                    return self.dictionary[text]
-                else:
-                    raise SkyilineNotAssigned
+            return self.visit(l[0])
             
         # Mirror
         elif len(l) == 2:
@@ -83,19 +118,3 @@ class EvalVisitor(SkylineVisitor):
             # Multiplication
             elif l[1].getText() == '*':
                 return self.visit(l[0]) * self.visit(l[2])
-
-'''
-    def visitSkyline(self, ctx:SkylineParser.SkylineContext):
-        l = [n for n in ctx.getChildren()]
-        # City
-        if len(l) == 7:
-            sk = Skyline()
-            sk.addBuilding((self.visit(l[1]), self.visit(l[3]), self.visit(l[5])))
-            return sk
-
-        # Random cities
-        elif len(l) == 11:
-            sk = Skyline()
-            sk.addRandom(self.visit(l[1]), self.visit(l[3]), self.visit(l[5]), self.visit(l[7]), self.visit(l[9]))
-            return sk
-'''
