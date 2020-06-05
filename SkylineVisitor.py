@@ -34,5 +34,10 @@ class SkylineVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by SkylineParser#number.
+    def visitNumber(self, ctx:SkylineParser.NumberContext):
+        return self.visitChildren(ctx)
+
+
 
 del SkylineParser

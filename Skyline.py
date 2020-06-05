@@ -2,8 +2,18 @@ import random
 import matplotlib.pyplot as plt
 
 class WrongDimensions(Exception):
-   """Raised when trying to create a building with wrong parameters"""
-   pass
+    def __init__(self, *args):
+        if args:
+            self.message = args[0]
+        else:
+            self.message = None
+    
+    def __str__(self):
+        print('callling str')
+        if self.message:
+            return 'WrongDimensions, {0}'.format(self.message)
+        else:
+            return 'WrongDimensions has been raised'
 
 class Skyline:
     def __init__(self, initialBuildings={}):

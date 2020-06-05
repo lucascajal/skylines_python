@@ -7,16 +7,16 @@ grammar Skyline;
 
 root : expr EOF ;
 
-expr : '(' expr ')'     //#parenthesis
-    | '-' expr          //#mirror
-    | expr MUL expr     //#multiplication
-    | expr MES expr     //#sum
-    | expr MENYS expr   //#diff
-    | WORD ':=' expr    //#assig
-    | var               //#word
-    | buildings         //#buildings
-    | building          //#building
-    | NUM               //#num
+expr : '(' expr ')'
+    | '-' expr
+    | expr MUL expr
+    | expr MES expr
+    | expr MENYS expr
+    | WORD ':=' expr
+    | var
+    | buildings
+    | building
+    | number            
     ;
 
 building : '(' NUM ',' NUM ',' NUM ')'
@@ -25,6 +25,8 @@ building : '(' NUM ',' NUM ',' NUM ')'
 buildings : '[' building (',' building)* ']' ;
 
 var : WORD;
+
+number : NUM;
 
 NUM : [0-9]+    
     | '-' [0-9]+; 

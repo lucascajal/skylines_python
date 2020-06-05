@@ -39,8 +39,8 @@ class EvalVisitor(SkylineVisitor):
     def visitRoot(self, ctx:SkylineParser.RootContext):
         n = next(ctx.getChildren())
         result = self.visit(n)
-        #result.printSkyline()
-        result.saveImage()
+        result.printSkyline()
+        #result.saveImage()
         return result.getMeasures()
     
     def visitBuilding(self, ctx:SkylineParser.BuildingContext):
@@ -72,6 +72,11 @@ class EvalVisitor(SkylineVisitor):
             return self.dictionary[text]
         else:
             raise SkyilineNotAssigned
+    
+    def visitNumber(self, ctx:SkylineParser.NumberContext):
+        n = next(ctx.getChildren())
+        text = n.getText()
+        return int(text)
 
     def visitExpr(self, ctx:SkylineParser.ExprContext):
         l = [n for n in ctx.getChildren()]
