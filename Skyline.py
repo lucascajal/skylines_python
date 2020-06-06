@@ -34,6 +34,9 @@ class Skyline:
                 if (not xmin in skyline1) or (skyline1[xmin] < skyline2[xmin]): skyline1[xmin] = skyline2[xmin]
             return Skyline(skyline1)
     
+    def __radd__(self, other):
+        return self + other
+    
     def __sub__(self, other):
         skyline1 = {}
         for x in self.buildings:
@@ -44,12 +47,14 @@ class Skyline:
         if type(other) is int:
             neg = other < 0
             other = abs(other)
+            if len(self.buildings.keys()) == 0:
+                return Skyline()
             skyline1 = {}
             width = abs(max(self.buildings.keys()) - min(self.buildings.keys())) + 1
             for i in range(other):
                 for x in self.buildings:
                     skyline1[width*i + x] = self.buildings[x]
-            
+        
             if neg:
                 return - Skyline(skyline1) -(width * other)
             else:
@@ -67,6 +72,8 @@ class Skyline:
         return self * other
     
     def __neg__(self):
+        if len(self.buildings.keys()) == 0:
+            return Skyline()
         skyline = self.getSkyline()
         ini = min(skyline.keys())
         end = max(skyline.keys())
@@ -129,10 +136,19 @@ class Skyline:
         return self.area, self.height
     
     def printSkyline(self):
-        plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
-        plt.show()
+        if len(self.buildings.keys()) == 0:
+            plt.bar([0], [0], width=1, align='edge', color=['red'])
+            plt.show()
+        else:
+            plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
+            plt.show()
     
     def saveImage(self):
-        plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
-        plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
-        plt.close()
+        if len(self.buildings.keys()) == 0:
+            plt.bar([0], [0], width=1, align='edge', color=['red'])
+            plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
+            plt.close()
+        else:
+            plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
+            plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
+            plt.close()

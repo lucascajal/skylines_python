@@ -164,7 +164,7 @@ def command(update, context):
             photo=open('/home/lucas/upc/LP/Python/bot/fig.png', 'rb'))
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="area: " + str(a) + "\nalçada: " + str(h))
+            text="area: " + str(h[0][0]) + "\nalçada: " + str(h[0][1]))
 
 lang = Antlr()
 

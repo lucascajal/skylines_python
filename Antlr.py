@@ -21,7 +21,7 @@ class Antlr():
          token_stream = CommonTokenStream(lexer)
          parser = SkylineParser(token_stream)
          tree = parser.root()
-         return self.visitor.visit(tree)
+         return True, [self.visitor.visit(tree)]
 
       except SkyilineNotAssigned:
          return False, 'Variable not initialized'
