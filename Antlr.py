@@ -28,10 +28,10 @@ class Antlr():
 
       except WrongDimensions:
          return False, 'Wrong dimensions'
-      
+
       except AttributeError:
          return False, 'Command not valid'
-   
+
       except Exception as e:
          traceback.print_exc()
          return False, 'Unknown error'
@@ -46,16 +46,24 @@ class Antlr():
       self.visitor = EvalVisitor()
    
    def save(self, name):
-      data = self.visitor.getDictionary()
-      pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'wb')
-      pickle.dump(data, pickle_file)
-      pickle_file.close()
+      if name in self.visitor.getDictionary():
+         data = self.visitor.getDictionary()[name]
+         pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'wb')
+         pickle.dump(data, pickle_file)
+         pickle_file.close()
+         return True, None
+      else:
+         return False, 'Variable not initialized'
    
    def load(self, name):
-      pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'rb')
-      data = pickle.load(pickle_file)
-      pickle_file.close()
-      self.visitor = EvalVisitor(data)
+      try:
+         pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'rb')
+         data = pickle.load(pickle_file)
+         pickle_file.close()
+         self.visitor.addToDictionary(name, data)
+         return True, None
+      except FileNotFoundError as e:
+         return False, 'File not found\. Type /load to see a list of avaliable files'
 
 def main():
    visitor = EvalVisitor()

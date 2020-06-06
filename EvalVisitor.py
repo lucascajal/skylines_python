@@ -32,6 +32,9 @@ class EvalVisitor(SkylineVisitor):
     def getDictionary(self):
         return self.dictionary
     
+    def addToDictionary(self, name, skyline):
+        self.dictionary[name] = skyline
+    
     def getArea(self, id):
         area, height = self.dictionary[id].getMeasures()
         return area
@@ -39,8 +42,8 @@ class EvalVisitor(SkylineVisitor):
     def visitRoot(self, ctx:SkylineParser.RootContext):
         n = next(ctx.getChildren())
         result = self.visit(n)
-        result.printSkyline()
-        #result.saveImage()
+        #result.printSkyline()
+        result.saveImage()
         return result.getMeasures()
     
     def visitBuilding(self, ctx:SkylineParser.BuildingContext):
@@ -99,7 +102,7 @@ class EvalVisitor(SkylineVisitor):
             sk = Skyline()
             sk.addRandom(int(l[1].getText()), int(l[3].getText()), int(l[5].getText()), int(l[7].getText()), int(l[9].getText()))
             return sk
-        
+
         # Other operators
         elif len(l) == 3:
             # Assignation

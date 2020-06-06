@@ -34,39 +34,60 @@ def clean(update, context):
         text="All identifiers erased!")
 
 def save(update, context):
-    if len(context.args) == 1:
-        lang.save(context.args[0])
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Data saved!")
+    if len(context.args) >= 1:
+        for i in range(0, len(context.args)):
+            a, h = lang.save(context.args[i])
+            if not a:
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id, 
+                    text='*ERROR:* Variable "' + str(context.args[i]) + '" not declared\. Type /lst to see a list of declared variables', 
+                    parse_mode='MarkdownV2')
+            else:
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text='Variable "' + str(context.args[i]) + '" saved!')
     
     else:
-        context.bot.send_message(
-            chat_id=update.effective_chat.id, 
-            text='*ERROR:* command takes 1 argument, ' + str(len(context.args)) + ' given', 
-            parse_mode='MarkdownV2')
+        keyboard = []
+        for key in lang.lst():
+            keyboard.append([InlineKeyboardButton(key, callback_data="_save_" +key)])
+
+        if len(keyboard) == 0:
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="There are no declared variables!")
+        else:
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            update.message.reply_text('Which variable do you want to save?', reply_markup=reply_markup)
 
 def load(update, context):
-    if len(context.args) == 1:
-        lang.load(context.args[0])
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Data loaded!")
-    elif len(context.args) == 0:
+    if len(context.args) >= 1:
+        for i in range(0, len(context.args)):
+            a, h = lang.load(context.args[i])
+            if not a:
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text='*ERROR:* Skyline "' + str(context.args[i]) + '" not found\. Type /load to see a list of avaliable files', 
+                    parse_mode='MarkdownV2')
+            else:
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text='Skyline "' + str(context.args[i]) + '" loaded\!',
+                    parse_mode='MarkdownV2')
+    else :
         keyboard = []
         for file in os.listdir("/home/lucas/upc/LP/Python/bot/"):
             if file.endswith(".sky"):
                 name = file[:len(file)-4]
                 keyboard.append([InlineKeyboardButton(name, callback_data=name)])
-        
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        update.message.reply_text('Which file do you want to load?', reply_markup=reply_markup)
 
-    else:
-        context.bot.send_message(
-            chat_id=update.effective_chat.id, 
-            text='*ERROR:* command takes 0 or 1 argument, ' + str(len(context.args)) + ' given', 
-            parse_mode='MarkdownV2')
+        if len(keyboard) == 0:
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="There are no saved skylines!")
+        else:
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            update.message.reply_text('Which file do you want to load?', reply_markup=reply_markup)
 
 def help(update, context):
     keyboard = [[InlineKeyboardButton("List commands", callback_data='List commands')],
@@ -117,12 +138,13 @@ Creates n buildings, each one of them with a random height between 0 and h, a ra
   ·  \*	intersection and replication
   · \+ \-	union and displacement
 """
+    elif "_save_" == "{}".format(query.data)[:6]:
+        lang.save("{}".format(query.data)[6:])
+        text = "Variable saved\!"
     else:
         lang.load("{}".format(query.data))
-        text = "Data loaded\!"
+        text = "Skyline loaded\!"
 
-    #print("{}".format(query.data))
-    #print(text)
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
         text=text, 
