@@ -34,9 +34,6 @@ class Skyline:
                 if (not xmin in skyline1) or (skyline1[xmin] < skyline2[xmin]): skyline1[xmin] = skyline2[xmin]
             return Skyline(skyline1)
     
-    def __radd__(self, other):
-        return self + other
-    
     def __sub__(self, other):
         skyline1 = {}
         for x in self.buildings:

@@ -10,8 +10,7 @@ root : expr EOF ;
 expr : '(' expr ')'
     | '-' expr
     | expr MUL expr
-    | expr MES expr
-    | expr MENYS expr
+    | expr (MES | MENYS) expr
     | WORD ':=' expr
     | var
     | buildings
