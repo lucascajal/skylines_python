@@ -155,19 +155,6 @@ class Skyline:
         
         heights.append(self.buildings[keys[length-1]])
         widths.append(w)
-        '''
-        if (keys[length-1] == keys[length-2] -1) and (self.buildings[keys[length-1]] == self.buildings[keys[length-2]]):
-            heights.append(self.buildings[keys[length-1]])
-            widths.append(w+1)
-            print("if 2")
-        else:
-            heights.append(self.buildings[keys[length-2]])
-            heights.append(self.buildings[keys[length-1]])
-            widths.append(w)
-            widths.append(1)
-            positions.append(keys[length-1])
-            print("else 2")
-        '''
         return (positions, heights, widths)
 
     def uncompressSkyline(self, compressed):
