@@ -6,6 +6,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import os
 
 def start(update, context):
+    chat_id = str(update.message.chat_id)
     lang.clean()
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -36,7 +37,7 @@ def clean(update, context):
 def save(update, context):
     if len(context.args) >= 1:
         for i in range(0, len(context.args)):
-            a, h = lang.save(context.args[i])
+            a, h = lang.save(chat_id, context.args[i])
             if not a:
                 context.bot.send_message(
                     chat_id=update.effective_chat.id, 
@@ -46,7 +47,7 @@ def save(update, context):
                 context.bot.send_message(
                     chat_id=update.effective_chat.id,
                     text='Variable "' + str(context.args[i]) + '" saved!')
-    
+
     else:
         keyboard = []
         for key in lang.lst():
@@ -63,7 +64,7 @@ def save(update, context):
 def load(update, context):
     if len(context.args) >= 1:
         for i in range(0, len(context.args)):
-            a, h = lang.load(context.args[i])
+            a, h = lang.load(chat_id, context.args[i])
             if not a:
                 context.bot.send_message(
                     chat_id=update.effective_chat.id,
@@ -76,7 +77,7 @@ def load(update, context):
                     parse_mode='MarkdownV2')
     else :
         keyboard = []
-        for file in os.listdir("/home/lucas/upc/LP/Python/bot/"):
+        for file in os.listdir("/home/lucas/upc/LP/Python/userData/" + chat_id):
             if file.endswith(".sky"):
                 name = file[:len(file)-4]
                 keyboard.append([InlineKeyboardButton(name, callback_data=name)])
@@ -139,10 +140,10 @@ Creates n buildings, each one of them with a random height between 0 and h, a ra
   · \+ \-	union and displacement
 """
     elif "_save_" == "{}".format(query.data)[:6]:
-        lang.save("{}".format(query.data)[6:])
+        lang.save(chat_id, "{}".format(query.data)[6:])
         text = "Variable saved\!"
     else:
-        lang.load("{}".format(query.data))
+        lang.load(chat_id, "{}".format(query.data))
         text = "Skyline loaded\!"
 
     context.bot.send_message(
@@ -161,12 +162,14 @@ def command(update, context):
     else:
         context.bot.send_photo(
             chat_id=update.effective_chat.id, 
-            photo=open('/home/lucas/upc/LP/Python/bot/fig.png', 'rb'))
+            photo=open('/home/lucas/upc/LP/Python/userData/fig.png', 'rb'))
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="area: " + str(h[0][0]) + "\nalçada: " + str(h[0][1]))
 
 lang = Antlr()
+
+chat_id = "default"
 
 TOKEN = open('/home/lucas/upc/LP/Python/bot/token.txt').read().strip()
 updater = Updater(token=TOKEN, use_context=True)

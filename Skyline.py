@@ -175,9 +175,9 @@ class Skyline:
         positions, heights, widths = self.getCompressedSkyline()
         if len(positions) == 0:
             plt.bar([0], [0], width=1, align='edge', color=['red'])
-            plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
+            plt.savefig('/home/lucas/upc/LP/Python/userData/fig.png')
             plt.close()
         else:
             plt.bar(positions, heights, width=widths, align='edge', color=['red'])
-            plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
+            plt.savefig('/home/lucas/upc/LP/Python/userData/fig.png')
             plt.close()
