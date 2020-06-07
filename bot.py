@@ -118,7 +118,7 @@ def button(update, context):
   · Single: \(xmin, h, xmax\)
 xmin and xmax specify the initial and final position, and h the height of the buidling\. Example: \(1, 2, 3\)
 
-  · Multiple: _NOT IMPLEMENTED YET_ \[\(xmin, h, xmax\), \(xmin, h, xmax\)\.\.\.\] 
+  · Multiple: \[\(xmin, h, xmax\), \(xmin, h, xmax\)\.\.\.\] 
 Allows creating multiple buildings from a list of simple buildings\. Example: \[\(1, 2, 3\), \(3, 4, 6\)\]
 
   · Random: \{n, h, w, xmin, xmax\}

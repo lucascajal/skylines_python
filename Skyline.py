@@ -1,5 +1,6 @@
 import random
 import matplotlib.pyplot as plt
+import time
 
 class WrongDimensions(Exception):
     def __init__(self, *args):
@@ -91,6 +92,8 @@ class Skyline:
         return Skyline(skyline)
 
     def addBuilding(self, building):
+        print("Creating skyline...")
+        start_time = time.time()
         if (building[0] >= building[2]) or (building[1] < 0):
             raise WrongDimensions
         if self.height < building[1]: self.height = building[1]
@@ -102,6 +105,7 @@ class Skyline:
                 elif self.buildings[i] < building[1]:
                     self.area += building[1] - self.buildings[i]
                     self.buildings[i] = building[1]
+        print("Skyline created in %s seconds" % (time.time() - start_time))
     
     def addBuildings(self, buildingList):
         for building in buildingList:
@@ -132,20 +136,63 @@ class Skyline:
     def getMeasures(self):
         return self.area, self.height
     
+    def getCompressedSkyline(self):
+        print("Compressing skyline...")
+        start_time = time.time()
+        keys = sorted(self.buildings.keys())
+        length = len(keys)
+        if length == 0:
+            return [],[],[]
+
+        positions = [keys[0]]
+        heights = []
+        widths = []
+        w = 1
+        for i in range(1,length-1):
+            if (keys[i] == keys[i-1] + 1) and (self.buildings[keys[i]] == self.buildings[keys[i-1]]):
+                w += 1
+            else:
+                heights.append(self.buildings[keys[i-1]])
+                widths.append(w)
+                w = 1
+                positions.append(keys[i])
+        
+        if (keys[length-1] == keys[length-2] -1) and (self.buildings[keys[length-1]] == self.buildings[keys[length-2]]):
+            heights.append(self.buildings[keys[length-1]])
+            widths.append(w+1)
+        else:
+            heights.append(self.buildings[keys[length-2]])
+            heights.append(self.buildings[keys[length-1]])
+            widths.append(w)
+            widths.append(1)
+            positions.append(keys[length-1])
+        print("Skyline compressed in %s seconds" % (time.time() - start_time))
+        return (positions, heights, widths)
+    
+    def uncompressSkyline(self, compressed):
+        positions, heights, widths = compressed
+        for i in range(0, len(positions)):
+            self.addBuilding((positions[i], heights[i], positions[i] + widths[i]))
+    
     def printSkyline(self):
-        if len(self.buildings.keys()) == 0:
+        positions, heights, widths = self.getCompressedSkyline()
+        if len(positions) == 0:
             plt.bar([0], [0], width=1, align='edge', color=['red'])
             plt.show()
         else:
-            plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
+            plt.bar(positions, heights, width=widths, align='edge', color=['red'])
             plt.show()
     
     def saveImage(self):
-        if len(self.buildings.keys()) == 0:
+        positions, heights, widths = self.getCompressedSkyline()
+        print("Printing skyline...")
+        start_time = time.time()
+        if len(positions) == 0:
             plt.bar([0], [0], width=1, align='edge', color=['red'])
             plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
             plt.close()
         else:
-            plt.bar(self.buildings.keys(), self.buildings.values(), width=1, align='edge', color=['red'])
+            plt.bar(positions, heights, width=widths, align='edge', color=['red'])
             plt.savefig('/home/lucas/upc/LP/Python/bot/fig.png')
             plt.close()
+        print("Skyline printed in %s seconds" % (time.time() - start_time))

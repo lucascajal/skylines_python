@@ -47,7 +47,7 @@ class Antlr():
    
    def save(self, name):
       if name in self.visitor.getDictionary():
-         data = self.visitor.getDictionary()[name]
+         data = self.visitor.getDictionary()[name] #.getCompressedSkyline()
          pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'wb')
          pickle.dump(data, pickle_file)
          pickle_file.close()
