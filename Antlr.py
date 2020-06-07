@@ -4,7 +4,7 @@ from SkylineLexer import SkylineLexer
 from SkylineParser import SkylineParser
 from TreeVisitor import TreeVisitor
 from EvalVisitor import EvalVisitor, SkyilineNotAssigned
-from Skyline import WrongDimensions
+from Skyline import *
 
 class Antlr():
    def __init__(self, initialBuildings={}):
@@ -47,7 +47,7 @@ class Antlr():
    
    def save(self, name):
       if name in self.visitor.getDictionary():
-         data = self.visitor.getDictionary()[name] #.getCompressedSkyline()
+         data = self.visitor.getDictionary()[name].getCompressedSkyline()
          pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'wb')
          pickle.dump(data, pickle_file)
          pickle_file.close()
@@ -60,7 +60,9 @@ class Antlr():
          pickle_file = open('/home/lucas/upc/LP/Python/bot/'+ name +'.sky', 'rb')
          data = pickle.load(pickle_file)
          pickle_file.close()
-         self.visitor.addToDictionary(name, data)
+         sk = Skyline()
+         sk.uncompressSkyline(data)
+         self.visitor.addToDictionary(name, sk)
          return True, None
       except FileNotFoundError as e:
          return False, 'File not found\. Type /load to see a list of avaliable files'
