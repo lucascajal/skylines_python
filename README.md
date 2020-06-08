@@ -11,7 +11,7 @@ Les llibreries necessàries per executar el bot es troben llistades dins el fitx
 > pip3 install -r requirements.txt
 ```
 També cal tenir un *Acces token*, que és un identificador que Telegram dona per identificar cada bot. Per obtenir-lo:
-  - Entrem a @BotFather
+  - Entrem a [@BotFather](https://telegram.me/botfather)
   - Utilitzem la `comanda newbot` i donem la informació demanada (nom complet i nom d'usuari del bot, que ha d'acabar amb `bot`).
   - Desem a un fitxer `token.txt` el nostre *access token*, que té un aspecte com ara `U10201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw`. Aquest fitxer s'ha de guardar al mateix directori on es troba el nostre programa ```bot.py```.
 
