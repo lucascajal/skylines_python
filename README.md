@@ -1,3 +1,6 @@
+# Optimización:
+getSkyline: no hacer copia siempre, devolver referencia. Hacer copia de la referencia sólo cuando sea necesario.
+interseccion: iterar por el skyline más corto, no skyline2.
 # Pràctica de Python: Skyline bot
 
 Bot de Telegram programat en python per poder crear i gestionar skylines.
@@ -95,8 +98,9 @@ Degut a que el cost de consultar o modificar una entrada al diccionari és `O(1)
 Si comparem el cost amb el que s'hauria obtingut en cas d'utilitzar una llista d'edificis com a estructura de dades, podem veure que hauríem mantingut el cost de la copia `O(n)`, i per fer la unió hauríem d'implementar una búsqueda binària, de cost `O(log n)`, i per a cada inserció dins la llista pagar un cost `O(n)`, ja que com cal mantenir la llista ordenada, no podem inserir l'element al final d'aquesta, ho hem de fer a la posició corresponent. Per tant, el cost de l'operació seria `O(n) + O(n log n) = O(n log n)`.
 
 #### Intersecció
-metodologia
-cost
+Aquesta operació realitza la intersecció de dos skylines. Per exemple, si executem `a := b + c`, l'*skyline* `a` serà la intersecció de `b` i `c`.
+
+Gràcies a la nostra implementació de *skyline* amb un diccionari, aquesta operació és pràcticament igual que la unió, on només fem 2 petits canvis. En comptes de fer una copia 
 
 #### Replicació
 metodologia
