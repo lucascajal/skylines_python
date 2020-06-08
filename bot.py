@@ -6,7 +6,6 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import os
 
 def start(update, context):
-    chat_id = str(update.message.chat_id)
     lang.clean()
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -146,7 +145,6 @@ Creates n buildings, each one of them with a random height between 0 and h, a ra
         callback = "{}".format(query.data)
         chat_id = callback[1:int(callback[0])+1]
         callback = callback[int(callback[0])+1:]
-        print(callback, chat_id)
 
         if "_save_" == callback[:6]:
             lang.save(chat_id, callback[6:])
@@ -162,23 +160,22 @@ Creates n buildings, each one of them with a random height between 0 and h, a ra
 
 def command(update, context):
     """Reads a code line and replies with the resulting skyline"""
-    a, h = lang.send(update.message.text)
+    chat_id = str(update.message.chat_id)
+    a, h = lang.send(update.message.text, chat_id)
     if not a:
         context.bot.send_message(
-            chat_id=update.effective_chat.id, 
-            text='*ERROR:* ' + h, 
+            chat_id=update.effective_chat.id,
+            text='*ERROR:* ' + h,
             parse_mode='MarkdownV2')
     else:
         context.bot.send_photo(
-            chat_id=update.effective_chat.id, 
-            photo=open('/home/lucas/upc/LP/Python/userData/fig.png', 'rb'))
+            chat_id=update.effective_chat.id,
+            photo=open('/home/lucas/upc/LP/Python/userData/' + chat_id + '/fig.png', 'rb'))
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="area: " + str(h[0][0]) + "\nalçada: " + str(h[0][1]))
 
 lang = Antlr()
-
-chat_id = "default"
 
 TOKEN = open('/home/lucas/upc/LP/Python/bot/token.txt').read().strip()
 updater = Updater(token=TOKEN, use_context=True)

@@ -16,15 +16,14 @@ class SkyilineNotAssigned(Exception):
             self.message = None
     
     def __str__(self):
-        print('callling str')
         if self.message:
             return 'SkyilineNotAssigned, {0}'.format(self.message)
         else:
             return 'SkyilineNotAssigned has been raised'
 
 class EvalVisitor(SkylineVisitor):
-    def __init__(self, initialSkyline={}):
-        self.dictionary = dict(initialSkyline)
+    def __init__(self):
+        self.dictionary = {}
 
     def listKeys(self):
         return self.dictionary.keys()
@@ -42,9 +41,7 @@ class EvalVisitor(SkylineVisitor):
     def visitRoot(self, ctx:SkylineParser.RootContext):
         n = next(ctx.getChildren())
         result = self.visit(n)
-        #result.printSkyline()
-        result.saveImage()
-        return result.getMeasures()
+        return result
     
     def visitBuilding(self, ctx:SkylineParser.BuildingContext):
         l = [n for n in ctx.getChildren()]

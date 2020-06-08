@@ -1,6 +1,7 @@
 import random
 import matplotlib.pyplot as plt
 import time
+from pathlib import Path
 
 class WrongDimensions(Exception):
     def __init__(self, *args):
@@ -10,7 +11,6 @@ class WrongDimensions(Exception):
             self.message = None
     
     def __str__(self):
-        print('callling str')
         if self.message:
             return 'WrongDimensions, {0}'.format(self.message)
         else:
@@ -171,13 +171,14 @@ class Skyline:
             plt.bar(positions, heights, width=widths, align='edge', color=['red'])
             plt.show()
     
-    def saveImage(self):
+    def saveImage(self, user_id):
         positions, heights, widths = self.getCompressedSkyline()
+        Path('/home/lucas/upc/LP/Python/userData/'+ user_id).mkdir(parents=True, exist_ok=True)
         if len(positions) == 0:
             plt.bar([0], [0], width=1, align='edge', color=['red'])
-            plt.savefig('/home/lucas/upc/LP/Python/userData/fig.png')
+            plt.savefig('/home/lucas/upc/LP/Python/userData/' + user_id + '/fig.png')
             plt.close()
         else:
             plt.bar(positions, heights, width=widths, align='edge', color=['red'])
-            plt.savefig('/home/lucas/upc/LP/Python/userData/fig.png')
+            plt.savefig('/home/lucas/upc/LP/Python/userData/' + user_id + '/fig.png')
             plt.close()

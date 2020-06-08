@@ -11,7 +11,7 @@ class Antlr():
    def __init__(self, initialBuildings={}):
       self.visitor = EvalVisitor()
 
-   def send(self, text):
+   def send(self, text, user_id):
       if text[0] == '/':
          if text == '/clear':
             return False, 'Command not valid\. Did you mean /clean\?'
@@ -22,7 +22,9 @@ class Antlr():
          token_stream = CommonTokenStream(lexer)
          parser = SkylineParser(token_stream)
          tree = parser.root()
-         return True, [self.visitor.visit(tree)]
+         ret = self.visitor.visit(tree)
+         ret.saveImage(user_id)
+         return True, [ret.getMeasures()]
 
       except SkyilineNotAssigned:
          return False, 'Variable not initialized'
