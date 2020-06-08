@@ -4,6 +4,7 @@ from Antlr import Antlr
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import os
+import sys
 
 def start(update, context):
     lang.clean()
@@ -69,7 +70,7 @@ def load(update, context):
             if not a:
                 context.bot.send_message(
                     chat_id=update.effective_chat.id,
-                    text='*ERROR:* Skyline "' + str(context.args[i]) + '" not found\. Type /load to see a list of avaliable files', 
+                    text='*ERROR:* Skyline "' + str(context.args[i]) + '" not found\.\nType /load to see a list of avaliable files', 
                     parse_mode='MarkdownV2')
             else:
                 context.bot.send_message(
@@ -78,8 +79,9 @@ def load(update, context):
                     parse_mode='MarkdownV2')
     else :
         keyboard = []
-        if os.path.isdir("/home/lucas/upc/LP/Python/userData/" + chat_id):
-            for file in os.listdir("/home/lucas/upc/LP/Python/userData/" + chat_id):
+        path = str(os.path.abspath(os.path.dirname(sys.argv[0]))) + "/userData/"
+        if os.path.isdir(path + chat_id):
+            for file in os.listdir(path + chat_id):
                 if file.endswith(".sky"):
                     name = file[:len(file)-4]
                     keyboard.append([InlineKeyboardButton(name, callback_data=str(len(chat_id)) + chat_id + name)])

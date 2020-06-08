@@ -2,7 +2,6 @@ import sys, traceback, pickle
 from antlr4 import *
 from SkylineLexer import SkylineLexer
 from SkylineParser import SkylineParser
-from TreeVisitor import TreeVisitor
 from EvalVisitor import EvalVisitor, SkyilineNotAssigned
 from Skyline import *
 from pathlib import Path
@@ -51,8 +50,9 @@ class Antlr():
    def save(self, user_id, name):
       if name in self.visitor.getDictionary():
          data = self.visitor.getDictionary()[name].getCompressedSkyline()
-         Path('/home/lucas/upc/LP/Python/userData/'+ user_id).mkdir(parents=True, exist_ok=True)
-         pickle_file = open('/home/lucas/upc/LP/Python/userData/'+ user_id + '/' + name +'.sky', 'wb')
+         path = str(Path(__file__).parent) + "/userData/"
+         Path(path + user_id).mkdir(parents=True, exist_ok=True)
+         pickle_file = open(path + user_id + '/' + name +'.sky', 'wb')
          pickle.dump(data, pickle_file)
          pickle_file.close()
          return True, None
@@ -61,7 +61,8 @@ class Antlr():
    
    def load(self, user_id, name):
       try:
-         pickle_file = open('/home/lucas/upc/LP/Python/userData/' + user_id + '/'+ name +'.sky', 'rb')
+         path = str(Path(__file__).parent) + "/userData/"
+         pickle_file = open(path + user_id + '/'+ name +'.sky', 'rb')
          data = pickle.load(pickle_file)
          pickle_file.close()
          sk = Skyline()

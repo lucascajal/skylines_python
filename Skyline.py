@@ -173,12 +173,13 @@ class Skyline:
     
     def saveImage(self, user_id):
         positions, heights, widths = self.getCompressedSkyline()
-        Path('/home/lucas/upc/LP/Python/userData/'+ user_id).mkdir(parents=True, exist_ok=True)
+        path = str(Path(__file__).parent) + "/userData/"
+        Path(path + user_id).mkdir(parents=True, exist_ok=True)
         if len(positions) == 0:
             plt.bar([0], [0], width=1, align='edge', color=['red'])
-            plt.savefig('/home/lucas/upc/LP/Python/userData/' + user_id + '/fig.png')
+            plt.savefig(path + user_id + '/fig.png')
             plt.close()
         else:
             plt.bar(positions, heights, width=widths, align='edge', color=['red'])
-            plt.savefig('/home/lucas/upc/LP/Python/userData/' + user_id + '/fig.png')
+            plt.savefig(path + user_id + '/fig.png')
             plt.close()
