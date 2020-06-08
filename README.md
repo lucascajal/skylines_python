@@ -6,11 +6,24 @@ Bot de Telegram programat en python per poder crear i gestionar skylines.
 
 ### Prerequisits
 
-Les llibreries necessàries per executar el bot es troben llistades dins el fitxer ```requirements.txt```, i es poden instalar utilitzant ```pip``` executant ```pip install -r example-requirements.txt```.
+Les llibreries necessàries per executar el bot es troben llistades dins el fitxer ```requirements.txt```, i es poden instalar utilitzant ```pip``` executant la comanda ```pip3 install -r example-requirements.txt```.
 
 ### Execució
 
+Per executar el programa, només cal utilitzar la comanda
+```bash
+> python3 bot.py
+```
 ### Comandes del bot
+
+El nostre bot disposa de diverses comandes:
+- `/start`: Inicia la conversa amb el bot
+- `/help`: El bot ens demanarà amb què necessitem ajuda, i segons la nostra resposta ens contestarà amb l'explicacio de les comandes o el llenguatge per gestionar skylines.
+- `/author`: El bot respon amb l'informació sobre el seu autor.
+- `/lst`: Llista tots els identificadors definits i l'àrea de l'skyline que hi ha a cadascun.
+- `/clean`: Esborra tots els identificadors definits.
+- `/save [skyline1, skyline2, ...]`: Guarda els skylines indicats per l'usuari. Si no s'indica cap skyline per guardar, el bot ens demana que seleccionem els que volem guardar mostrant-nos una llista de tots els disponibles.
+- `/load [skyline1, skyline2, ...]`: Carrega els skylines indicats per l'usuari. Si no s'indica cap skyline per guardar, el bot ens demana que seleccionem els que volem carregar mostrant-nos una llista de tots els disponibles.
 
 ### Llenguatge per gestionar skylines
 
