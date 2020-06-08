@@ -1,7 +1,3 @@
-# Optimización:
-getSkyline: no hacer copia siempre, devolver referencia. Hacer copia de la referencia sólo cuando sea necesario.
-
-interseccion: iterar por el skyline más corto, no skyline2.
 # Pràctica de Python: Skyline bot
 
 Bot de Telegram programat en python per poder crear i gestionar skylines.
