@@ -8,7 +8,7 @@ Bot de Telegram programat en python per poder crear i gestionar skylines.
 
 Les llibreries necessàries per executar el bot es troben llistades dins el fitxer ```requirements.txt```, i es poden instalar utilitzant ```pip``` executant la comanda
 ```bash
-> pip3 install -r example-requirements.txt
+> pip3 install -r requirements.txt
 ```
 
 ### Execució
