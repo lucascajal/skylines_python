@@ -66,6 +66,12 @@ El llenguatge admet l'ús d'*identificadors* i d'*assignacions* mitjançant l'op
 
 ## Estructura del codi
 
+El codi del nostre bot es pot dividir en 4 parts:
+- `bot.py`: S'encarrega de gestionar la interacció amb l'usuari a través de telegram
+- `Antlr.py`: Fa de pont entre el bot i la gramàtica. Sencarrega de gestionar les comandes rebudes des del bot i enviar a `EvalVisitor` les operacions de gestió d'skylines rebudes des del bot. També gestiona les excepcions generades durant l'execució.
+- `EvalVisitor.py` i gramàtica: S'encarreguen de parsejar les operacions rebudes i generar i modificar els skylines resultant d'aquestes operacions.
+- `Skyline.py`: Defineix la classe skyline i les operacions que s'hi poden fer.
+
 ### La classe Skyline
 estructura diccionari: 
   ocupa més en memoria de programa, però execució molt més ràpida
