@@ -78,7 +78,7 @@ Per implementar la classe `Skyline`, hem decidit utilitzar un diccionari. Aquest
 
 És fàcil veure que guardar les dades d'aquesta forma ocuparà més espai que si utilitzéssim una estructura més *naive*, com ara una llista d'edificis, on per cada edifici guardem les mateixes dades que ens proporciona l'usuari (`xmin`, `h`, `xmax`). Però l'utilització del diccionari ens permetrà fer operacions sobre l'*skyline* molt més ràpides, com veurem a continuació. Tenint en compte que actualment els computadors es veuen molt més limitats per la capacitat de processament que per la seva memòria, hem decidit que aquest mètode era el més adeqüat. Una altra avantatge d'utilitzar aquesta estructura és la simplicitat d'implementació de les operacions, que fa el codi molt més fàcil de mantenir.
 
-A continuació explicarem com s'han implementat les diferents operacions sobre *skylines*, i analitzarem la seva complexitat. Cal notar que degut a la naturalesa del llenguatge, cada vegada que realitzem una operacio a un skyline no volem modificar aquest, si no que volem generar-ne un de nou. Per tant, a totes les operacions hem de crear una copia de l'*skyline* original sobre el que després farem modificacions. Aquesta copia té un cost de O(n), que ens marcarà la complexitat de totes les operacions.
+A continuació explicarem com s'han implementat les diferents operacions sobre *skylines*, i analitzarem la seva complexitat. Cal notar que degut a la naturalesa del llenguatge, cada vegada que realitzem una operacio a un skyline no volem modificar aquest, si no que volem generar-ne un de nou. Per tant, a totes les operacions hem de crear una copia de l'*skyline* original sobre el que després farem modificacions. Aquesta copia té un cost de `O(n)`, on `n` és el nombre d'entrades dins del diccionari que representa l'*skyline*, i serà el *bottleneck* de les nostres operacions.
 
 estructura diccionari: 
   ocupa més en memoria de programa, però execució molt més ràpida
@@ -86,7 +86,13 @@ compressió i descompressió per guardar/carregar/imprimir:
   matplotlib no peta, transforma estructura per optimitzar espai, ja que no s'han de fer càlculs -> menys memòria persistent
 
 #### Unió
+Aquesta operació realitza la unió de dos skylines. Per exemple, si executem `a := b + c`, l'*skyline* `a` serà la unió de `b` i `c`.
 
+Per fer aquesta operació, primer fem una copia del primer *skyline* de l'operació, per tal d'evitar modificar aquest durant l'execució. Llavors, per a cada element dins el diccionari del segon skyline, si a la copia ja existeix una entrada amb la mateixa clau, li assignem com a valor el màxim entre el valor actual i el valor al segon skyline. Si no existeix l'entrada, afegim aquest element a la nostra copia. 
+
+Degut a que el cost de consultar o modificar una entrada al diccionari és `O(1)`, i fem aquest procés per a cada element del segon diccionari, el cost serà `O(m)`, on `m` és el nombre d'elements del segon diccionari. Si sumem la complexitat de la copia obligatòria del primer diccionari, el cost total d'aquesta operació és `O(n) + O(m) = O(n+m)`.
+
+Si comparem el cost amb el que s'hauria obtingut en cas d'utilitzar una llista d'edificis com a estructura de dades, podem veure que hauríem mantingut el cost de la copia `O(n)`, i per fer la unió hauríem d'implementar una búsqueda binària, de cost `O(log n)`, i per a cada inserció dins la llista pagar un cost `O(n)`, ja que com cal mantenir la llista ordenada, no podem inserir l'element al final d'aquesta, ho hem de fer a la posició corresponent. Per tant, el cost de l'operació seria `O(n) + O(n log n) = O(n log n)`.
 
 #### Intersecció
 metodologia
