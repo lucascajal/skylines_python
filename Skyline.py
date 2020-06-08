@@ -29,7 +29,7 @@ class Skyline:
             return Skyline(skyline1)
         
         else:
-            skyline1 = self.getSkyline()
+            skyline1 = dict(self.getSkyline())
             skyline2 = other.getSkyline()
             for xmin in skyline2:
                 if (not xmin in skyline1) or (skyline1[xmin] < skyline2[xmin]): skyline1[xmin] = skyline2[xmin]
@@ -62,8 +62,14 @@ class Skyline:
             skyline1 = self.getSkyline()
             skyline2 = other.getSkyline()
             res = {}
-            for xmin in skyline2:
-                if xmin in skyline1: res[xmin] = min(skyline1[xmin], skyline2[xmin])
+            if len(skyline1) < len(skyline2):
+                for xmin in skyline1:
+                    if xmin in skyline2: 
+                        res[xmin] = min(skyline1[xmin], skyline2[xmin])
+            else:
+                for xmin in skyline2:
+                    if xmin in skyline1: 
+                        res[xmin] = min(skyline1[xmin], skyline2[xmin])
             return Skyline(res)
     
     def __rmul__(self, other):
@@ -72,7 +78,7 @@ class Skyline:
     def __neg__(self):
         if len(self.buildings.keys()) == 0:
             return Skyline()
-        skyline = self.getSkyline()
+        skyline = dict(self.getSkyline())
         ini = min(skyline.keys())
         end = max(skyline.keys())
         while ini < end:
@@ -119,7 +125,7 @@ class Skyline:
             self.addBuilding((start, height, start + width))
 
     def getSkyline(self):
-        return dict(self.buildings)
+        return self.buildings
     
     def calcMeasures(self):
         a = 0
