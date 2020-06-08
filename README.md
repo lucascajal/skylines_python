@@ -84,13 +84,6 @@ Per implementar la classe `Skyline`, hem decidit utilitzar un diccionari. Aquest
 
 A continuació explicarem com s'han implementat les diferents operacions sobre *skylines*, i analitzarem la seva complexitat. 
 
-__(Borrar y poner solo en las op que sea necesario??) Cal notar que degut a la naturalesa del llenguatge, cada vegada que realitzem una operacio a un skyline no volem modificar aquest, si no que volem generar-ne un de nou. Per tant, a totes les operacions hem de crear una copia de l'*skyline* original sobre el que després farem modificacions. Aquesta copia té un cost de `O(n)`, on `n` és el nombre d'entrades dins del diccionari que representa l'*skyline*, i serà el *bottleneck* de les nostres operacions.__
-
-estructura diccionari: 
-  ocupa més en memoria de programa, però execució molt més ràpida
-compressió i descompressió per guardar/carregar/imprimir: 
-  matplotlib no peta, transforma estructura per optimitzar espai, ja que no s'han de fer càlculs -> menys memòria persistent
-
 #### Unió
 Aquesta operació realitza la unió de dos skylines. Per exemple, si executem `a := b + c`, l'*skyline* `a` serà la unió de `b` i `c`.
 
@@ -107,7 +100,7 @@ Gràcies a la nostra implementació de *skyline* amb un diccionari, aquesta oper
 
 En aquest cas, com no hem de fer copia d'un skyline, no hem de pagar el cost d'aquesta. I com iterem per l'skyline amb el menor nombre d'entrades, i consultar un valor a un diccionari té cost `O(1)`, el cost de la intersecció serà `O( min(n, m) )`, on `n` i `m` són el nombre d'entrades de cada skyline.
 
-En el cas d'haver utilitzat llistes, 
+En el cas d'haver utilitzat llistes, el cost seria igual que el de la unió, `O(n log n)`.
 
 #### Replicació
 Per implementar la replicació, simplement cal afegir a l'skyline una còpia d'ell mateix desplaçada, i fer-ho `m` vegades, on `m` indica el nombre de replicacions. Per fer una copia tenim un cost de `O(n)`, per a un skyline de `n` elements, i per fer el desplaçament només cal sumar l'amplada de l'*skyline* a les claus. Per tant, el cost de l'operació és `O(n*m)`.
@@ -115,7 +108,7 @@ Per implementar la replicació, simplement cal afegir a l'skyline una còpia d'e
 En el cas d'haver utilitzat llistes, el cost seria exactament el mateix, degut a que hem de fer les copies i desplaçaments igual.
 
 #### Desplaçament
-Per fer un desplaçament de l'skyline, només cal sumar o restar a cada clau el valor que es vol desplaçar. COm això s'ha de fer per a cada entrada del diccionari, el cost és `O(n)`, on `n` és el nombre d'elements del diccionari.
+Per fer un desplaçament de l'skyline, només cal sumar o restar a cada clau el valor que es vol desplaçar. Com això s'ha de fer per a cada entrada del diccionari, el cost és `O(n)`, on `n` és el nombre d'elements del diccionari.
 
 El cost en cas d'utilitzar una llista seria el mateix, ja que cal iterar per tots els elements per sumar el desplaçament.
 
