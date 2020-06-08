@@ -73,6 +73,12 @@ El codi del nostre bot es pot dividir en 4 parts:
 - `Skyline.py`: Defineix la classe skyline i les operacions que s'hi poden fer.
 
 ### La classe Skyline
+
+Per implementar la classe `Skyline`, hem decidit utilitzar un diccionari. Aquest guarda l'alçada de cada posició dins de l'*skyline*, sempre i quan aquesta alçada sigui superior a zero. Per tant, les claus del diccionari són nombres enters que indiquen la posició, i el seu valor un altre enter que ens indica l'alçada de l'*skyline* a aquella posició. Això significa que, per a guardar un edifici, tindrem tantes entrades com l'amplada d'aquest edifici. Per exemple, l'edifici `(1,2,4)` quedarà guardat al diccionari de l'*skyline* com a `{1:2, 2:2, 3:2}`. 
+
+És fàcil veure que guardar les dades d'aquesta forma ocuparà més espai que si utilitzéssim una estructura més *naive*, com ara una llista d'edificis, on per cada edifici guardem les mateixes dades que ens proporciona l'usuari (`xmin`, `h`, `xmax`). Però
+
+
 estructura diccionari: 
   ocupa més en memoria de programa, però execució molt més ràpida
 compressió i descompressió per guardar/carregar/imprimir: 
