@@ -76,8 +76,9 @@ El codi del nostre bot es pot dividir en 4 parts:
 
 Per implementar la classe `Skyline`, hem decidit utilitzar un diccionari. Aquest guarda l'alçada de cada posició dins de l'*skyline*, sempre i quan aquesta alçada sigui superior a zero. Per tant, les claus del diccionari són nombres enters que indiquen la posició, i el seu valor un altre enter que ens indica l'alçada de l'*skyline* a aquella posició. Això significa que, per a guardar un edifici, tindrem tantes entrades com l'amplada d'aquest edifici. Per exemple, l'edifici `(1,2,4)` quedarà guardat al diccionari de l'*skyline* com a `{1:2, 2:2, 3:2}`. 
 
-És fàcil veure que guardar les dades d'aquesta forma ocuparà més espai que si utilitzéssim una estructura més *naive*, com ara una llista d'edificis, on per cada edifici guardem les mateixes dades que ens proporciona l'usuari (`xmin`, `h`, `xmax`). Però
+És fàcil veure que guardar les dades d'aquesta forma ocuparà més espai que si utilitzéssim una estructura més *naive*, com ara una llista d'edificis, on per cada edifici guardem les mateixes dades que ens proporciona l'usuari (`xmin`, `h`, `xmax`). Però l'utilització del diccionari ens permetrà fer operacions sobre l'*skyline* molt més ràpides, com veurem a continuació. Tenint en compte que actualment els computadors es veuen molt més limitats per la capacitat de processament que per la seva memòria, hem decidit que aquest mètode era el més adeqüat. Una altra avantatge d'utilitzar aquesta estructura és la simplicitat d'implementació de les operacions, que fa el codi molt més fàcil de mantenir.
 
+A continuació explicarem com s'han implementat les diferents operacions sobre *skylines*, i analitzarem la seva complexitat.
 
 estructura diccionari: 
   ocupa més en memoria de programa, però execució molt més ràpida
@@ -103,6 +104,10 @@ cost
 #### Mirall
 metodologia
 cost
+
+#### Càlcul de l'àrea i alçada de l'*skyline*
+
+#### Compressió de l'*skyline*
 
 ## Referències
 
