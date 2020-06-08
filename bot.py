@@ -35,6 +35,7 @@ def clean(update, context):
         text="All identifiers erased!")
 
 def save(update, context):
+    chat_id = str(update.message.chat_id)
     if len(context.args) >= 1:
         for i in range(0, len(context.args)):
             a, h = lang.save(chat_id, context.args[i])
@@ -51,7 +52,7 @@ def save(update, context):
     else:
         keyboard = []
         for key in lang.lst():
-            keyboard.append([InlineKeyboardButton(key, callback_data="_save_" +key)])
+            keyboard.append([InlineKeyboardButton(key, callback_data=str(len(chat_id)) + chat_id + "_save_" +key)])
 
         if len(keyboard) == 0:
             context.bot.send_message(
@@ -62,6 +63,7 @@ def save(update, context):
             update.message.reply_text('Which variable do you want to save?', reply_markup=reply_markup)
 
 def load(update, context):
+    chat_id = str(update.message.chat_id)
     if len(context.args) >= 1:
         for i in range(0, len(context.args)):
             a, h = lang.load(chat_id, context.args[i])
@@ -77,10 +79,11 @@ def load(update, context):
                     parse_mode='MarkdownV2')
     else :
         keyboard = []
-        for file in os.listdir("/home/lucas/upc/LP/Python/userData/" + chat_id):
-            if file.endswith(".sky"):
-                name = file[:len(file)-4]
-                keyboard.append([InlineKeyboardButton(name, callback_data=name)])
+        if os.path.isdir("/home/lucas/upc/LP/Python/userData/" + chat_id):
+            for file in os.listdir("/home/lucas/upc/LP/Python/userData/" + chat_id):
+                if file.endswith(".sky"):
+                    name = file[:len(file)-4]
+                    keyboard.append([InlineKeyboardButton(name, callback_data=str(len(chat_id)) + chat_id + name)])
 
         if len(keyboard) == 0:
             context.bot.send_message(
@@ -139,12 +142,18 @@ Creates n buildings, each one of them with a random height between 0 and h, a ra
   ·  \*	intersection and replication
   · \+ \-	union and displacement
 """
-    elif "_save_" == "{}".format(query.data)[:6]:
-        lang.save(chat_id, "{}".format(query.data)[6:])
-        text = "Variable saved\!"
     else:
-        lang.load(chat_id, "{}".format(query.data))
-        text = "Skyline loaded\!"
+        callback = "{}".format(query.data)
+        chat_id = callback[1:int(callback[0])+1]
+        callback = callback[int(callback[0])+1:]
+        print(callback, chat_id)
+
+        if "_save_" == callback[:6]:
+            lang.save(chat_id, callback[6:])
+            text = "Variable saved\!"
+        else:
+            lang.load(chat_id, callback)
+            text = "Skyline loaded\!"
 
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
