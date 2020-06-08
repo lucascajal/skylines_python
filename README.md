@@ -26,5 +26,5 @@ https://gebakx.github.io/SkylineBot/
 
 ## Autor
 
-**Lucas Cajal**
+**Lucas Cajal**\n
 www.lucascajal.com
