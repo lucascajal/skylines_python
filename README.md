@@ -119,10 +119,6 @@ Degut a que cada vegada que l'usuari fa una operació hem de retornar l'àrea i 
 #### Compressió de l'*skyline*
 Com hem dit, la utilització d'un diccionari per representar l'skyline augmenta l'eficiència del programa, però també l'espai que ocupa. Quan volem guardar un skyline, no farem operacions sobre l'arxiu guardat, i per tant ens interessa més tenir-lo representat amb una estructura de dades més eficient en espai. És per això que s'ha implementat el métode `getCompressedSkyline()`, que transforma la nostra estructura de diccionari en una llista d'edificis, on per a cada edifici guardem només la seva posició inicial, posició final i alçada. El mètode `uncompressSkyline()` fa la transformació oposada: converteix un skyline comprimit en una llista a un skyline representat amb un diccionari, i serà el mètode que utilitzarem al carregar skylines guardats.
 
-## Referències
-
-https://wiki.python.org/moin/TimeComplexity
-
 ## Enunciat
 
 https://gebakx.github.io/SkylineBot/
