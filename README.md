@@ -1,22 +1,44 @@
 # Pràctica de Python: Skyline bot
 
-Joc programat en haskell per poder jugar al famós joc del 4 en ratlla contra l'ordinador.
+Bot de Telegram programat en python per poder crear i gestionar skylines.
 
 ## Utilització
 
 ### Prerequisits
 
-### Compilació
-
 ### Execució
 
-### Paràmetres inicials
+### Comandes del bot
 
-### Jugar
+### Llenguatge per gestionar skylines
 
-## Representació de la partida
+## Estructura del codi
 
-## Estratègies de l'ordinador
+### La classe Skyline
+estructura diccionari: 
+  ocupa més en memoria de programa, però execució molt més ràpida
+compressió i descompressió per guardar/carregar/imprimir: 
+  matplotlib no peta, transforma estructura per optimitzar espai, ja que no s'han de fer càlculs -> menys memòria persistent
+
+#### Unió
+metodologia
+cost
+
+#### Intersecció
+metodologia
+cost
+
+#### Replicació
+metodologia
+cost
+
+#### Desplaçament
+metodologia
+cost
+
+#### Mirall
+metodologia
+cost
 
 ## Referències
 
