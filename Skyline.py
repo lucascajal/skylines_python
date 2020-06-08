@@ -17,8 +17,8 @@ class WrongDimensions(Exception):
             return 'WrongDimensions has been raised'
 
 class Skyline:
-    def __init__(self):
-        self.buildings = {}
+    def __init__(self, initialBuildings={}):
+        self.buildings = dict(initialBuildings)
         self.calcMeasures()
 
     def __add__(self, other):
