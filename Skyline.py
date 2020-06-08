@@ -3,18 +3,20 @@ import matplotlib.pyplot as plt
 import time
 from pathlib import Path
 
+
 class WrongDimensions(Exception):
     def __init__(self, *args):
         if args:
             self.message = args[0]
         else:
             self.message = None
-    
+
     def __str__(self):
         if self.message:
             return 'WrongDimensions, {0}'.format(self.message)
         else:
             return 'WrongDimensions has been raised'
+
 
 class Skyline:
     def __init__(self, initialBuildings={}):
@@ -27,14 +29,15 @@ class Skyline:
             for x in self.buildings:
                 skyline1[x + other] = self.buildings[x]
             return Skyline(skyline1)
-        
+
         else:
             skyline1 = dict(self.getSkyline())
             skyline2 = other.getSkyline()
             for xmin in skyline2:
-                if (not xmin in skyline1) or (skyline1[xmin] < skyline2[xmin]): skyline1[xmin] = skyline2[xmin]
+                if (xmin not in skyline1) or (skyline1[xmin] < skyline2[xmin]):
+                    skyline1[xmin] = skyline2[xmin]
             return Skyline(skyline1)
-    
+
     def __sub__(self, other):
         skyline1 = {}
         for x in self.buildings:
@@ -52,29 +55,29 @@ class Skyline:
             for i in range(other):
                 for x in self.buildings:
                     skyline1[width*i + x] = self.buildings[x]
-        
+
             if neg:
-                return - Skyline(skyline1) -(width * other)
+                return - Skyline(skyline1) - (width * other)
             else:
                 return Skyline(skyline1)
-        
+
         else:
             skyline1 = self.getSkyline()
             skyline2 = other.getSkyline()
             res = {}
             if len(skyline1) < len(skyline2):
                 for xmin in skyline1:
-                    if xmin in skyline2: 
+                    if xmin in skyline2:
                         res[xmin] = min(skyline1[xmin], skyline2[xmin])
             else:
                 for xmin in skyline2:
-                    if xmin in skyline1: 
+                    if xmin in skyline1:
                         res[xmin] = min(skyline1[xmin], skyline2[xmin])
             return Skyline(res)
-    
+
     def __rmul__(self, other):
         return self * other
-    
+
     def __neg__(self):
         if len(self.buildings.keys()) == 0:
             return Skyline()
@@ -104,53 +107,54 @@ class Skyline:
             self.height = building[1]
         if building[1] > 0:
             for i in range(building[0], building[2]):
-                if not i in self.buildings:
+                if i not in self.buildings:
                     self.buildings[i] = building[1]
                     self.area += building[1]
                 elif self.buildings[i] < building[1]:
                     self.area += building[1] - self.buildings[i]
                     self.buildings[i] = building[1]
-    
+
     def addBuildings(self, buildingList):
         for building in buildingList:
             self.addBuilding(building)
-    
+
     def addRandom(self, n, h, w, xmin, xmax):
         if (n < 0) or (h < 0) or (xmin >= xmax) or (w < 1):
             raise WrongDimensions
         for _ in range(n):
-            height = random.randint(0,h)
+            height = random.randint(0, h)
             width = random.randint(1, min((xmax - xmin), w))
             start = random.randint(xmin, (xmax - width))
             self.addBuilding((start, height, start + width))
 
     def getSkyline(self):
         return self.buildings
-    
+
     def calcMeasures(self):
         a = 0
         h = 0
         for x in self.buildings.values():
             a += x
-            if (x > h): h = x
+            if (x > h):
+                h = x
         self.area = a
         self.height = h
         return a, h
 
     def getMeasures(self):
         return self.area, self.height
-    
+
     def getCompressedSkyline(self):
         keys = sorted(self.buildings.keys())
         length = len(keys)
         if length == 0:
-            return [],[],[]
+            return [], [], []
 
         positions = [keys[0]]
         heights = []
         widths = []
         w = 1
-        for i in range(1,length):
+        for i in range(1, length):
             if (keys[i] == keys[i-1] + 1) and (self.buildings[keys[i]] == self.buildings[keys[i-1]]):
                 w += 1
             else:
@@ -158,7 +162,7 @@ class Skyline:
                 widths.append(w)
                 w = 1
                 positions.append(keys[i])
-        
+
         heights.append(self.buildings[keys[length-1]])
         widths.append(w)
         return (positions, heights, widths)
@@ -176,7 +180,7 @@ class Skyline:
         else:
             plt.bar(positions, heights, width=widths, align='edge', color=['red'])
             plt.show()
-    
+
     def saveImage(self, user_id):
         positions, heights, widths = self.getCompressedSkyline()
         path = str(Path(__file__).parent) + "/userData/"

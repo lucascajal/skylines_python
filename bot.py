@@ -6,16 +6,19 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import os
 import sys
 
+
 def start(update, context):
     lang.clean()
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Wassup my friend. Type /help for a list of commands")
 
+
 def author(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Skyliner 2020!\nCreated by Lucas Cajal\nlucas.cajal@est.fib.upc.edu\nlucascajal.com")
+
 
 def lst(update, context):
     keys = lang.lst()
@@ -28,11 +31,13 @@ def lst(update, context):
         chat_id=update.effective_chat.id,
         text=message)
 
+
 def clean(update, context):
     lang.clean()
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="All identifiers erased!")
+
 
 def save(update, context):
     chat_id = str(update.message.chat_id)
@@ -41,8 +46,8 @@ def save(update, context):
             a, h = lang.save(chat_id, context.args[i])
             if not a:
                 context.bot.send_message(
-                    chat_id=update.effective_chat.id, 
-                    text='*ERROR:* Variable "' + str(context.args[i]) + '" not declared\. Type /lst to see a list of declared variables', 
+                    chat_id=update.effective_chat.id,
+                    text='*ERROR:* Variable "' + str(context.args[i]) + '" not declared\. Type /lst to see a list of declared variables',
                     parse_mode='MarkdownV2')
             else:
                 context.bot.send_message(
@@ -52,7 +57,7 @@ def save(update, context):
     else:
         keyboard = []
         for key in lang.lst():
-            keyboard.append([InlineKeyboardButton(key, callback_data=str(len(chat_id)) + chat_id + "_save_" +key)])
+            keyboard.append([InlineKeyboardButton(key, callback_data=str(len(chat_id)) + chat_id + "_save_" + key)])
 
         if len(keyboard) == 0:
             context.bot.send_message(
@@ -62,6 +67,7 @@ def save(update, context):
             reply_markup = InlineKeyboardMarkup(keyboard)
             update.message.reply_text('Which variable do you want to save?', reply_markup=reply_markup)
 
+
 def load(update, context):
     chat_id = str(update.message.chat_id)
     if len(context.args) >= 1:
@@ -70,14 +76,14 @@ def load(update, context):
             if not a:
                 context.bot.send_message(
                     chat_id=update.effective_chat.id,
-                    text='*ERROR:* Skyline "' + str(context.args[i]) + '" not found\.\nType /load to see a list of avaliable files', 
+                    text='*ERROR:* Skyline "' + str(context.args[i]) + '" not found\.\nType /load to see a list of avaliable files',
                     parse_mode='MarkdownV2')
             else:
                 context.bot.send_message(
                     chat_id=update.effective_chat.id,
                     text='Skyline "' + str(context.args[i]) + '" loaded\!',
                     parse_mode='MarkdownV2')
-    else :
+    else:
         keyboard = []
         path = str(os.path.abspath(os.path.dirname(sys.argv[0]))) + "/userData/"
         if os.path.isdir(path + chat_id):
@@ -94,6 +100,7 @@ def load(update, context):
             reply_markup = InlineKeyboardMarkup(keyboard)
             update.message.reply_text('Which file do you want to load?', reply_markup=reply_markup)
 
+
 def help(update, context):
     keyboard = [[InlineKeyboardButton("List commands", callback_data='List commands')],
                 [InlineKeyboardButton("Language description", callback_data='Language description')]]
@@ -101,6 +108,7 @@ def help(update, context):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     update.message.reply_text('What do you need help with?', reply_markup=reply_markup)
+
 
 def button(update, context):
     query = update.callback_query
@@ -123,7 +131,7 @@ def button(update, context):
   · Single: \(xmin, h, xmax\)
 xmin and xmax specify the initial and final position, and h the height of the buidling\. Example: \(1, 2, 3\)
 
-  · Multiple: \[\(xmin, h, xmax\), \(xmin, h, xmax\)\.\.\.\] 
+  · Multiple: \[\(xmin, h, xmax\), \(xmin, h, xmax\)\.\.\.\]
 Allows creating multiple buildings from a list of simple buildings\. Example: \[\(1, 2, 3\), \(3, 4, 6\)\]
 
   · Random: \{n, h, w, xmin, xmax\}
@@ -156,9 +164,10 @@ Creates n buildings, each one of them with a random height between 0 and h, a ra
             text = "Skyline loaded\!"
 
     context.bot.send_message(
-        chat_id=update.effective_chat.id, 
-        text=text, 
+        chat_id=update.effective_chat.id,
+        text=text,
         parse_mode='MarkdownV2')
+
 
 def command(update, context):
     """Reads a code line and replies with the resulting skyline"""
@@ -178,6 +187,7 @@ def command(update, context):
             chat_id=update.effective_chat.id,
             text="area: " + str(h[0][0]) + "\nalçada: " + str(h[0][1]))
 
+
 lang = Antlr()
 path = str(os.path.abspath(os.path.dirname(sys.argv[0])))
 
@@ -185,16 +195,16 @@ TOKEN = open(path + '/token.txt').read().strip()
 updater = Updater(token=TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 
-dispatcher.add_handler(CallbackQueryHandler(button)) # per respondre a click de help al inline keyboard
+dispatcher.add_handler(CallbackQueryHandler(button))
 
-dispatcher.add_handler(CommandHandler('start', start)) # inicia la conversa amb el Bot
-dispatcher.add_handler(CommandHandler('author', author)) # el Bot ha d’escriure el nom complet de l’autor del projecte i seu correu electrònic oficial de la facultat
-dispatcher.add_handler(CommandHandler('help', help)) # el Bot ha de contestar amb una llista de totes les possibles comandes i una breu documentació sobre el seu propòsit i ús
+dispatcher.add_handler(CommandHandler('start', start))
+dispatcher.add_handler(CommandHandler('author', author))
+dispatcher.add_handler(CommandHandler('help', help))
 
-dispatcher.add_handler(CommandHandler('lst', lst)) # mostra els identificadors definits i la seva corresponent àrea
-dispatcher.add_handler(CommandHandler('clean', clean)) # esborra tots els identificadors definits
-dispatcher.add_handler(CommandHandler('save', save)) # ha de guardar un skyline definit amb el nom id.sky
-dispatcher.add_handler(CommandHandler('load', load)) # ha de carregar un skyline de l’arxiu id.sky
+dispatcher.add_handler(CommandHandler('lst', lst))
+dispatcher.add_handler(CommandHandler('clean', clean))
+dispatcher.add_handler(CommandHandler('save', save))
+dispatcher.add_handler(CommandHandler('load', load))
 
 dispatcher.add_handler(MessageHandler(Filters.text, command))
 
