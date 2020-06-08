@@ -8,19 +8,22 @@ import sys
 
 
 def start(update, context):
+    """Start command: welcomes the user and starts a clear session"""
     lang.clean()
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="Wassup my friend. Type /help for a list of commands")
+        text="Welcome to the Skyliner bot. Type /help for a list of commands")
 
 
 def author(update, context):
+    """Author command: replies with information about the creator of the bot"""
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Skyliner 2020!\nCreated by Lucas Cajal\nlucas.cajal@est.fib.upc.edu\nlucascajal.com")
 
 
 def lst(update, context):
+    """Lst command: lists all current instances of skylines"""
     keys = lang.lst()
     message = 'List of skylines and their area:'
     for element in keys:
@@ -33,6 +36,7 @@ def lst(update, context):
 
 
 def clean(update, context):
+    """Clean command: clears all curent instances of skylines"""
     lang.clean()
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -40,6 +44,7 @@ def clean(update, context):
 
 
 def save(update, context):
+    """Save command: saves the skyline selected by the user"""
     chat_id = str(update.message.chat_id)
     if len(context.args) >= 1:
         for i in range(0, len(context.args)):
@@ -69,6 +74,7 @@ def save(update, context):
 
 
 def load(update, context):
+    """Load command: loads the skyline selected by the user"""
     chat_id = str(update.message.chat_id)
     if len(context.args) >= 1:
         for i in range(0, len(context.args)):
@@ -102,6 +108,7 @@ def load(update, context):
 
 
 def help(update, context):
+    """Help command: prints a clickable keyboard to let the user select the help section"""
     keyboard = [[InlineKeyboardButton("List commands", callback_data='List commands')],
                 [InlineKeyboardButton("Language description", callback_data='Language description')]]
 
@@ -111,6 +118,10 @@ def help(update, context):
 
 
 def button(update, context):
+    """Reads the reply of a button press and performs the selected action by the user
+    The action can be either printing the avaliable commands, printing an explanation
+    of the skyline management language, loading a skyline or saving a skyline
+    """
     query = update.callback_query
     query.answer()
     text = ""

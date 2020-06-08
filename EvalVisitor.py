@@ -9,6 +9,9 @@ else:
 
 
 class SkyilineNotAssigned(Exception):
+    """Implements the SkyilineNotAssigned exception, raised when
+    the user makes a reference to a not instantiated skyline.
+    """
     def __init__(self, *args):
         if args:
             self.message = args[0]
@@ -24,27 +27,34 @@ class SkyilineNotAssigned(Exception):
 
 class EvalVisitor(SkylineVisitor):
     def __init__(self):
+        """Class constructor, declares an empty symbol table"""
         self.dictionary = {}
 
     def listKeys(self):
+        """Returns all the instantiated skylines name's"""
         return self.dictionary.keys()
 
     def getDictionary(self):
+        """Returns the symbol table"""
         return self.dictionary
 
     def addToDictionary(self, name, skyline):
+        """Adds a new instantiated skyline to the symbol table"""
         self.dictionary[name] = skyline
 
     def getArea(self, id):
+        """Returns the area for skyline 'id'"""
         area, height = self.dictionary[id].getMeasures()
         return area
 
     def visitRoot(self, ctx: SkylineParser.RootContext):
+        """Visitor for root rule in grammar, returns a skyline"""
         n = next(ctx.getChildren())
         result = self.visit(n)
         return result
 
     def visitBuilding(self, ctx: SkylineParser.BuildingContext):
+        """Visitor for building rule in grammar, returns a new skyline"""
         l = [n for n in ctx.getChildren()]
         # City
         if len(l) == 7:
@@ -59,6 +69,7 @@ class EvalVisitor(SkylineVisitor):
             return sk
 
     def visitBuildings(self, ctx: SkylineParser.BuildingsContext):
+        """Visitor for buildings rule in grammar, returns a new skyline"""
         l = [n for n in ctx.getChildren()]
         # City
         sk = Skyline()
@@ -67,6 +78,9 @@ class EvalVisitor(SkylineVisitor):
         return sk
 
     def visitVar(self, ctx: SkylineParser.VarContext):
+        """Visitor for var rule in grammar, returns an instantiated skyline.
+        If the referenced skyline is not instantiated, raises 'SkyilineNotAssigned'.
+        """
         n = next(ctx.getChildren())
         text = n.getText()
         if text in self.dictionary:
@@ -75,11 +89,13 @@ class EvalVisitor(SkylineVisitor):
             raise SkyilineNotAssigned
 
     def visitNumber(self, ctx: SkylineParser.NumberContext):
+        """Visitor for number rule in grammar, returns an integer"""
         n = next(ctx.getChildren())
         text = n.getText()
         return int(text)
 
     def visitExpr(self, ctx: SkylineParser.ExprContext):
+        """Visitor for expr rule in grammar, returns a skyline"""
         l = [n for n in ctx.getChildren()]
         # Building, buildings, num or word
         if len(l) == 1:
