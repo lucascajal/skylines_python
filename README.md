@@ -37,6 +37,20 @@ El nostre bot disposa de diverses comandes:
 
 ### Llenguatge per gestionar skylines
 
+El llenguatge permet els tipus d’operacions següents:
+- Creació d’edificis:
+  - Simple: `(xmin, alçada, xmax)` on `xmin` i `xmax` especifiquen la posició d’inici i final a la coordenada horizontal i `alçada` l’alçada de l’edifici. Ex: `(1, 2, 3)`.
+  - Compostos: `[(xmin, alçada, xmax), ...]` permet definir diversos edificis mitjançant una llista d’edificis simples. Ex: `[(1, 2, 3), (3, 4, 6)]` o `[(1, 1, 2), (1000000000000, 1, 1000000000001)]`.
+  - Aleatoris: `{n, h, w, xmin, xmax}` construeix `n` edificis, cadascun d’ells amb una alçada aleatòria entre 0 i `h`, amb una amplada aleatòria entre 1 i `w`, i una posició d’inici i de final aleatòria entre `xmin` i `xmax`.
+
+- Operadors d’skylines:
+  - `skyline + skyline`: unió
+  - `skyline * skyline`: intersecció
+  - `skyline * N`: replicació N vegades de l’skyline
+  - `skyline + N`: desplaçament a la dreta de l’skyline N posicions
+  - `skyline - N`: desplaçament a l’esquerra de l’skyline N posicions
+  - `- skyline`: retorna l’skyline reflectit.
+
 ## Estructura del codi
 
 ### La classe Skyline
