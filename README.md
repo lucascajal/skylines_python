@@ -94,7 +94,7 @@ compressió i descompressió per guardar/carregar/imprimir:
 #### Unió
 Aquesta operació realitza la unió de dos skylines. Per exemple, si executem `a := b + c`, l'*skyline* `a` serà la unió de `b` i `c`.
 
-Per fer aquesta operació, primer fem una copia del primer *skyline* de l'operació, per tal d'evitar modificar aquest durant l'execució. Llavors, per a cada element dins el diccionari del segon skyline, si a la copia ja existeix una entrada amb la mateixa clau, li assignem com a valor el màxim entre el valor actual i el valor al segon skyline. Si no existeix l'entrada, afegim aquest element a la nostra copia. 
+Per fer aquesta operació, primer fem una copia del primer *skyline* de l'operació, per tal d'evitar modificar aquest durant l'execució. Llavors, per a cada element dins el diccionari del segon skyline, si a la copia ja existeix una entrada amb la mateixa clau, li assignem com a valor el màxim entre el valor actual i el valor al segon skyline. Si no existeix l'entrada, afegim aquest element a la nostra copia. Un cop acabat, retornarem el nou skyline.
 
 Degut a que el cost de consultar o modificar una entrada al diccionari és `O(1)`, i fem aquest procés per a cada element del segon diccionari, el cost serà `O(m)`, on `m` és el nombre d'elements del segon diccionari. Si sumem la complexitat de la copia obligatòria del primer diccionari, el cost total d'aquesta operació és `O(n) + O(m) = O(n+m)`.
 
@@ -103,7 +103,11 @@ Si comparem el cost amb el que s'hauria obtingut en cas d'utilitzar una llista d
 #### Intersecció
 Aquesta operació realitza la intersecció de dos skylines. Per exemple, si executem `a := b + c`, l'*skyline* `a` serà la intersecció de `b` i `c`.
 
-Gràcies a la nostra implementació de *skyline* amb un diccionari, aquesta operació és pràcticament igual que la unió, on només fem 2 petits canvis. En comptes de fer una copia 
+Gràcies a la nostra implementació de *skyline* amb un diccionari, aquesta operació és pràcticament igual que la unió, on només fem 2 petits canvis. En comptes de fer una copia del diccionari del primer skyline, en crearem un buit. Llavors, iterarem per tots els elements del skyline més petit, i per a cada un d'aquests elements mirarem si també es present a l'altre skyline. En cas afirmatiu, afegirem al nou diccionari que hem creat una entrada amb la clau de l'element i amb el valor mínim entre els dos skylines. Un cop acabat, retornarem el nou skyline.
+
+En aquest cas, com no hem de fer copia d'un skyline, no hem de pagar el cost d'aquesta. I com iterem per l'skyline amb el menor nombre d'entrades, i consultar un valor a un diccionari té cost `O(1)`, el cost de la intersecció serà `O( min(n, m) )`, on `n` i `m` són el nombre d'entrades de cada skyline.
+
+En el cas d'haver utilitzat llistes, 
 
 #### Replicació
 metodologia
