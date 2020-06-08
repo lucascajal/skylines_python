@@ -110,12 +110,14 @@ En aquest cas, com no hem de fer copia d'un skyline, no hem de pagar el cost d'a
 En el cas d'haver utilitzat llistes, 
 
 #### Replicació
-metodologia
-cost
+Per implementar la replicació, simplement cal afegir a l'skyline una còpia d'ell mateix desplaçada, i fer-ho `m` vegades, on `m` indica el nombre de replicacions. Per fer una copia tenim un cost de `O(n)`, per a un skyline de `n` elements, i per fer el desplaçament només cal sumar l'amplada de l'*skyline* a les claus. Per tant, el cost de l'operació és `O(n*m)`.
+
+En el cas d'haver utilitzat llistes, el cost seria exactament el mateix, degut a que hem de fer les copies i desplaçaments igual.
 
 #### Desplaçament
-metodologia
-cost
+Per fer un desplaçament de l'skyline, només cal sumar o restar a cada clau el valor que es vol desplaçar. COm això s'ha de fer per a cada entrada del diccionari, el cost és `O(n)`, on `n` és el nombre d'elements del diccionari.
+
+El cost en cas d'utilitzar una llista seria el mateix, ja que cal iterar per tots els elements per sumar el desplaçament.
 
 #### Mirall
 metodologia
