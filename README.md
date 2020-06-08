@@ -120,12 +120,15 @@ Per fer un desplaçament de l'skyline, només cal sumar o restar a cada clau el 
 El cost en cas d'utilitzar una llista seria el mateix, ja que cal iterar per tots els elements per sumar el desplaçament.
 
 #### Mirall
-metodologia
-cost
+L'operació de mirall gira el nostre skyline d'esquerra a dreta. A efectes pràctics, es fa un desplaçament de cada entrada del diccionari. Aquest desplaçament és diferent per a cada element, però es pot calcular amb una simple operació de cost `O(1)`, i per tant el cost total de l'operació mirall és de `O(n)`.
+
+En cas d'haver utilitzat una llista, el cost seria el mateix, ja que cal iterar per tots els elements presents a aquesta.
 
 #### Càlcul de l'àrea i alçada de l'*skyline*
+Degut a que cada vegada que l'usuari fa una operació hem de retornar l'àrea i alçada màxima de l'*skyline*, s'ha decidit que aquests valors seràn valors materialitzats en comptes de derivats, i per tant cada vegada que modifiquem un skyline augmentarem o disminuirem els seus valors de forma corresponent.
 
 #### Compressió de l'*skyline*
+Com hem dit, la utilització d'un diccionari per representar l'skyline augmenta l'eficiència del programa, però també l'espai que ocupa. Quan volem guardar un skyline, no farem operacions sobre l'arxiu guardat, i per tant ens interessa més tenir-lo representat amb una estructura de dades més eficient en espai. És per això que s'ha implementat el métode `getCompressedSkyline()`, que transforma la nostra estructura de diccionari en una llista d'edificis, on per a cada edifici guardem només la seva posició inicial, posició final i alçada. El mètode `uncompressSkyline()` fa la transformació oposada: converteix un skyline comprimit en una llista a un skyline representat amb un diccionari, i serà el mètode que utilitzarem al carregar skylines guardats.
 
 ## Referències
 
