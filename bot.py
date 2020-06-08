@@ -170,16 +170,18 @@ def command(update, context):
             text='*ERROR:* ' + h,
             parse_mode='MarkdownV2')
     else:
+        path = str(os.path.abspath(os.path.dirname(sys.argv[0]))) + "/userData/"
         context.bot.send_photo(
             chat_id=update.effective_chat.id,
-            photo=open('/home/lucas/upc/LP/Python/userData/' + chat_id + '/fig.png', 'rb'))
+            photo=open(path + chat_id + '/fig.png', 'rb'))
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="area: " + str(h[0][0]) + "\nalçada: " + str(h[0][1]))
 
 lang = Antlr()
+path = str(os.path.abspath(os.path.dirname(sys.argv[0])))
 
-TOKEN = open('/home/lucas/upc/LP/Python/bot/token.txt').read().strip()
+TOKEN = open(path + '/token.txt').read().strip()
 updater = Updater(token=TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 
