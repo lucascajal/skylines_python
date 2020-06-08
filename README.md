@@ -51,6 +51,19 @@ El llenguatge permet els tipus d’operacions següents:
   - `skyline - N`: desplaçament a l’esquerra de l’skyline N posicions
   - `- skyline`: retorna l’skyline reflectit.
 
+La taula següent mostra la prioritat d’operadors de més gran a més petita:
+
+_**Operador**_ | _**Descripció**_
+------------ | -------------
+`( )` | Parèntesis
+`-` | Mirall
+`*` | Intersecció i replicació
+`+` `-` | Unió i desplaçaments
+
+- Identificadors:
+
+El llenguatge admet l'ús d'*identificadors* i d'*assignacions* mitjançant l'operador `:=`. Els identificadors han de ser una lletra seguida de zero o més lletres o dígits.
+
 ## Estructura del codi
 
 ### La classe Skyline
