@@ -62,7 +62,7 @@ _**Operador**_ | _**Descripció**_
 
 - Identificadors:
 
-El llenguatge admet l'ús d'*identificadors* i d'*assignacions* mitjançant l'operador `:=`. Els identificadors han de ser una lletra seguida de zero o més lletres o dígits.
+El llenguatge admet l'ús d'*identificadors* i d'*assignacions* mitjançant l'operador `:=`. Els identificadors han de ser una lletra seguida de zero o més lletres o dígits. Ex: `a := (1, 2, 3)`.
 
 ## Estructura del codi
 
