@@ -1,5 +1,6 @@
 # Optimización:
 getSkyline: no hacer copia siempre, devolver referencia. Hacer copia de la referencia sólo cuando sea necesario.
+
 interseccion: iterar por el skyline más corto, no skyline2.
 # Pràctica de Python: Skyline bot
 
@@ -81,7 +82,9 @@ Per implementar la classe `Skyline`, hem decidit utilitzar un diccionari. Aquest
 
 És fàcil veure que guardar les dades d'aquesta forma ocuparà més espai que si utilitzéssim una estructura més *naive*, com ara una llista d'edificis, on per cada edifici guardem les mateixes dades que ens proporciona l'usuari (`xmin`, `h`, `xmax`). Però l'utilització del diccionari ens permetrà fer operacions sobre l'*skyline* molt més ràpides, com veurem a continuació. Tenint en compte que actualment els computadors es veuen molt més limitats per la capacitat de processament que per la seva memòria, hem decidit que aquest mètode era el més adeqüat. Una altra avantatge d'utilitzar aquesta estructura és la simplicitat d'implementació de les operacions, que fa el codi molt més fàcil de mantenir.
 
-A continuació explicarem com s'han implementat les diferents operacions sobre *skylines*, i analitzarem la seva complexitat. Cal notar que degut a la naturalesa del llenguatge, cada vegada que realitzem una operacio a un skyline no volem modificar aquest, si no que volem generar-ne un de nou. Per tant, a totes les operacions hem de crear una copia de l'*skyline* original sobre el que després farem modificacions. Aquesta copia té un cost de `O(n)`, on `n` és el nombre d'entrades dins del diccionari que representa l'*skyline*, i serà el *bottleneck* de les nostres operacions.
+A continuació explicarem com s'han implementat les diferents operacions sobre *skylines*, i analitzarem la seva complexitat. 
+
+__(Borrar y poner solo en las op que sea necesario??) Cal notar que degut a la naturalesa del llenguatge, cada vegada que realitzem una operacio a un skyline no volem modificar aquest, si no que volem generar-ne un de nou. Per tant, a totes les operacions hem de crear una copia de l'*skyline* original sobre el que després farem modificacions. Aquesta copia té un cost de `O(n)`, on `n` és el nombre d'entrades dins del diccionari que representa l'*skyline*, i serà el *bottleneck* de les nostres operacions.__
 
 estructura diccionari: 
   ocupa més en memoria de programa, però execució molt més ràpida
