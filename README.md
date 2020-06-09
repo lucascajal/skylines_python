@@ -120,8 +120,10 @@ Com hem dit, la utilització d'un diccionari per representar l'skyline augmenta 
 
 https://gebakx.github.io/SkylineBot/
 
-## Autor
+## Author
 
 **Lucas Cajal**
+
 [contact@lucascajal.com](mailto:contact@lucascajal.com)
+
 www.lucascajal.com
