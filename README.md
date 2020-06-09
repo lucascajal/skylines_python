@@ -4,8 +4,8 @@ Telegram bot made to create and manage city skylines, coded in Python.
 
 ## Usage
 
-### Prerequisites
-The necessary libraries to execute the bot are listed inside `requirements.txt`. They can be installed using
+### Requirements
+The required libraries to execute the bot are listed inside `requirements.txt`. They can be installed using
 ```bash
 > pip3 install -r requirements.txt
 ```
