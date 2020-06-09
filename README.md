@@ -1,6 +1,6 @@
 # Telegram bot: Skylines
 
-Telegram bot implemented in python, made to create and manage city skylines.
+Telegram bot made to create and manage city skylines, coded in Python.
 
 ## Usage
 
