@@ -18,7 +18,7 @@ The full instructions on how to set up a Telegram bot can be found at https://co
 
 ### Execution
 
-To run the program, simply run
+To execute the program, simply run
 ```bash
 > python3 bot.py
 ```
