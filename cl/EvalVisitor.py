@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from Skyline import Skyline
 from Skyline import WrongDimensions
 if __name__ is not None and "." in __name__:
