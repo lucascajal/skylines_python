@@ -12,7 +12,7 @@ The necessary libraries to execute the bot are listed inside `requirements.txt`.
 You will also need to set up a telegram bot and get an *Access token*, which is a unique identifier given by Telegram to identify bots. In order to get it:
   - Access [@BotFather](https://telegram.me/botfather)
   - Use the `/newbot` command and fill all required information (full name and bot username, which must end with `'bot'`).
-  - Save inside a `token.txt` file the received *access token*, which looks something like `U10201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw`. This file must be saved inside the same directory where the program `bot.py`is located.
+  - Save inside a `token.txt` file the received *access token*, which will look something like `U10201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw`. This file must be saved inside the same directory where the program `bot.py`is located.
 
 The full instructions on how to set up a Telegram bot can be found at https://core.telegram.org/bots#6-botfather.
 
