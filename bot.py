@@ -20,7 +20,7 @@ def author(update, context):
     """Author command: replies with information about the creator of the bot"""
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="Skyliner 2020!\nCreated by Lucas Cajal\nlucas.cajal@est.fib.upc.edu\nlucascajal.com")
+        text="Skyliner 2020!\nCreated by Lucas Cajal\ncontact@lucascajal.com\nwww.lucascajal.com")
 
 
 def lst(update, context):
