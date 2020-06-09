@@ -134,8 +134,8 @@ def button(update, context):
 /author : Information about the author
 /lst : List session skylines
 /clean : Clear all skylines from session
-/save : Save current session
-/load : Load saved session"""
+/save [sk1, sk2, ...] : Save skylines
+/load [sk1, sk2, ...] : Load skylines"""
     elif "{}".format(query.data) == "Language description":
         text = """*Skyline management language*
 
