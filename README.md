@@ -65,7 +65,7 @@ The language allows the declaration of variables, which can be declared with the
 
 https://gebakx.github.io/SkylineBot/ (In catalan)
 
-[Facultat d'Informàtica de Barcelona](www.fib.upc.edu), [Universitat Politècnica de Catalunya](www.upc.edu/en) - FIB UPC.
+[Facultat d'Informàtica de Barcelona](https://www.fib.upc.edu), [Universitat Politècnica de Catalunya](https://www.upc.edu/en) - FIB UPC.
 
 ## Author
 
