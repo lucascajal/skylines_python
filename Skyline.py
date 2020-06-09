@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import random
 import matplotlib.pyplot as plt
 from pathlib import Path
