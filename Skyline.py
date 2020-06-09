@@ -1,6 +1,5 @@
 import random
 import matplotlib.pyplot as plt
-import time
 from pathlib import Path
 
 

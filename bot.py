@@ -1,10 +1,9 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram import ParseMode
-from Antlr import Antlr
-
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import os
 import sys
+from cl import Antlr
 
 
 def start(update, context):
@@ -199,7 +198,7 @@ def command(update, context):
             text="area: " + str(h[0][0]) + "\nalçada: " + str(h[0][1]))
 
 
-lang = Antlr()
+lang = Antlr.Antlr()
 path = str(os.path.abspath(os.path.dirname(sys.argv[0])))
 
 TOKEN = open(path + '/token.txt').read().strip()
