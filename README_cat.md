@@ -128,3 +128,5 @@ https://gebakx.github.io/SkylineBot/
 **Lucas Cajal**
 
 www.lucascajal.com
+
+**Nota de la pràctica: 10 sobre 10**
