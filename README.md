@@ -74,3 +74,5 @@ https://gebakx.github.io/SkylineBot/ (In catalan)
 [contact@lucascajal.com](mailto:contact@lucascajal.com)
 
 www.lucascajal.com
+
+**Final grade of the project: 10 out of 10**
